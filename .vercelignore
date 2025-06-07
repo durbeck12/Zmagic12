@@ -1,0 +1,13 @@
+# Ficheiros a ignorar no deploy Vercel
+node_modules
+.git
+.env*
+*.log
+.DS_Store
+
+# Não ignorar estes ficheiros importantes
+!index.html
+!package.json
+!vercel.json
+!public/**
+!core/** 

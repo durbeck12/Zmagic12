@@ -1,0 +1,106 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ ### ⚙ **Coding Workflow Preferences**  
+
+Divida tarefas complexas em etapas menores
+Verifique cada etapa antes de prosseguir
+Use "implemente apenas isso, nada mais"
+"Mantenha a estrutura existente"
+"Use apenas as bibliotecas já importadas"
+
+#### Planejamento e Análise
+
+- **Compreensão do fluxo:** Antes de implementar qualquer funcionalidade, entenda completamente o fluxo de interação entre os componentes envolvidos.
+- **Análise de impacto:** Avalie como as alterações afetarão outros componentes através do sistema de eventos.
+- **Identificação de componentes:** Determine quais gerenciadores (StateManager, BlockManager, etc.) serão afetados pela modificação.
+- **Verificação de duplicação:** Verifique se a funcionalidade já existe ou pode ser adaptada a partir de código existente.
+
+#### Desenvolvimento de Componentes
+
+- **Consistência de estrutura:**
+  - Classes de gerenciadores devem inicializar com `container` e `stateManager`
+  - Componentes visuais devem ter métodos `render()` e `update()`
+  - Manipuladores de eventos devem seguir o padrão `handle[Event]()`
+  - Use métodos auxiliares privados com nomes descritivos
+
+- **Desenvolvimento visual:**
+  - Primeiro implemente a estrutura básica (HTML/DOM)
+  - Depois adicione os estilos CSS usando as variáveis existentes
+  - Por fim, adicione comportamentos interativos (eventos)
+
+- **Ciclo de desenvolvimento:**
+  1. Leia a documentação existente em `guia_de_desenvolvimento.md`
+  2. Implemente a funcionalidade no arquivo correspondente
+  3. Teste a integração com outros componentes
+  4. Atualize a documentação
+
+#### Integração de Componentes
+
+- **Comunicação via eventos:** Use o sistema de eventos do `StateManager` para comunicação entre componentes.
+- **Evitar acoplamento direto:** Não faça referências diretas entre componentes, sempre use o `StateManager` como intermediário.
+- **Testes de integração:** Verifique se os componentes interagem corretamente após alterações.
+
+#### Desenvolvimento de CSS
+
+- **Ordem de desenvolvimento CSS:**
+  1. Estrutura e layout (posicionamento, display, dimensões)
+  2. Aparência visual (cores, bordas, sombras)
+  3. Estados interativos (hover, active, focus)
+  4. Animações e transições
+
+- **Organização de estilos:**
+  - Utilize o arquivo CSS apropriado para cada componente
+  - Siga a hierarquia de seletores existente
+  - Mantenha a especificidade dos seletores baixa
+
+#### Testes e Validação
+
+- **Testagem progressiva:**
+  1. Teste a funcionalidade básica isoladamente
+  2. Teste a integração com componentes relacionados
+  3. Teste o fluxo completo de trabalho
+  4. Verifique casos extremos e condições de erro
+
+- **Validação visual:**
+  - Verifique consistência com outros elementos da interface
+  - Teste em diferentes resoluções
+  - Verifique estados visuais (hover, seleção, erro)
+
+#### Documentação e Comunicação
+
+- **Atualização de documentação:**
+  - Atualize `guia_de_desenvolvimento.md` com novas funções
+  - Documente fluxos de trabalho complexos com diagramas ou exemplos
+  - Mantenha exemplos de código atualizados para referência
+
+- **Comentários para IA:**
+  - Adicione comentários que expliquem o "porquê" além do "como"
+  - Marque seções importantes com tags como `// IMPORTANTE: ...`
+  - Documente padrões não óbvios e decisões de design
+
+#### Otimização e Refinamento
+
+- **Otimização progressiva:**
+  - Primeiro faça funcionar corretamente
+  - Depois melhore a clareza e organização do código
+  - Por último, otimize desempenho (se necessário)
+
+- **Refatoração responsável:**
+  - Refatore apenas uma área do código por vez
+  - Mantenha os testes passando durante a refatoração
+  - Documente as mudanças substanciais na arquitetura
+
+#### Colaboração com IA
+
+- **Solicitações claras para a IA:**
+  - Forneça contexto suficiente ao solicitar ajuda
+  - Referencie arquivos e funções específicas
+  - Use o vocabulário consistente do projeto
+
+- **Aprendizado iterativo:**
+  - Forneça feedback sobre as sugestões da IA
+  - Documente padrões que funcionam bem com a assistência da IA
+  - Crie exemplos para ajudar a IA a entender melhor o projeto

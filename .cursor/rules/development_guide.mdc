@@ -1,0 +1,126 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 📜 Guia de Desenvolvimento - ZMagic12
+
+Bem-vindo ao desenvolvimento do **ZMagic12**! Este guia define as regras e boas práticas para manter a organização e a qualidade do código.  
+
+## 📌 Estrutura do Projeto
+- **Módulos bem definidos**: Cada funcionalidade deve ser desenvolvida dentro de seu módulo correspondente.
+- **Código limpo e reutilizável**: Priorize modularização e evite repetições desnecessárias.
+- **Uso de componentes comuns**: Sempre que possível, utilize os elementos da pasta `core/common/components/`.
+
+## 📏 Padrões de Código
+- **HTML**: Seguir a semântica correta e usar indentação de 2 espaços.
+- **CSS**: Utilizar `BEM` para nomeação de classes e evitar inline styles.
+- **JavaScript**: Código organizado em funções reutilizáveis, evitando variáveis globais desnecessárias.
+
+
+ZMagic12/
+├── core/                      # Código base da aplicação
+│   ├── common/                # Recursos compartilhados globais
+│   │   ├── css/               # Estilos globais (theme.css, resets)
+│   │   ├── js/                # Scripts globais (autenticação, helpers)
+│   │   ├── components/        # Componentes reutilizáveis (botões, cards)
+│   │   ├── assets/            # Ícones, imagens globais, fontes
+│   │   ├── seo/               # Configuração de SEO para melhorar visibilidade
+│   │   └── docs/              # Documentação geral
+│   ├── dashboard/             # Painel principal da aplicação
+│   │   ├── index.html         # Página do painel
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── auth/                  # Autenticação (login, cadastro, recuperação de senha)
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── forgot-password.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── admin/                 # Painel administrativo
+│   │   ├── index.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── api/                   # Integrações com APIs externas e backend
+│   │   ├── mock-data/         # Dados fictícios para testes
+│   │   ├── services/          # Scripts de comunicação com API
+│   │   └── docs/
+│   ├── community/             # Fórum e suporte comunitário
+│   │   ├── forum.html
+│   │   ├── tutorials.html
+│   │   ├── challenges.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   ├── reviews/           # Avaliações e feedback dos usuários
+│   │   └── docs/
+├── modules/                   # Módulos específicos da aplicação
+│   ├── form-builder/          # Módulo de criação de formulários
+│   │   ├── index.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   ├── docs/
+│   │   ├── ui-code/           # Submódulo gerador de UI
+│   │   ├── tcmd-code/         # Submódulo gerador de código TCMD
+│   │   └── qrc-code/          # Submódulo gerador de código QRC
+│   ├── low-code/              # Módulo de programação visual (low-code)
+│   │   ├── index.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── workspace/         # Ambiente de trabalho do low-code
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── macro-code/            # Módulo de código de macros
+│   │   ├── index.html
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── project-manager/       # Módulo para organizar e vender projetos
+│   │   ├── index.html         # Página de gerenciamento de projetos
+│   │   ├── templates/         # Modelos de projetos para venda
+│   │   ├── user-projects/     # Pasta onde os projetos do usuário são gerenciados
+│   │   ├── promotion/         # Ferramentas para promover projetos
+│   │   ├── analytics/         # Estatísticas de desempenho dos projetos
+│   │   ├── reviews/           # Seção para avaliações de projetos
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+│   ├── marketplace/           # Loja de compra e venda de macros
+│   │   ├── index.html         # Página principal da loja
+│   │   ├── featured/          # Destaques e promoções
+│   │   ├── categories/        # Organização por tipo de macro
+│   │   ├── cart/              # Carrinho de compras
+│   │   ├── checkout/          # Processo de pagamento
+│   │   ├── seller-dashboard/  # Painel para vendedores gerenciarem vendas
+│   │   ├── css/
+│   │   ├── js/
+│   │   ├── assets/
+│   │   └── docs/
+├── config/                    # Configurações globais
+│   ├── settings.js            # Configurações gerais da aplicação
+│   ├── routes.js              # Definição de rotas principais
+│   ├── payments.js            # Integração com sistemas de pagamento
+│   ├── theme.css              # Tema global
+│   └── docs/
+├── public/                    # Arquivos estáticos acessíveis diretamente
+│   ├── images/                # Imagens globais (logo, banners)
+│   ├── icons/                 # Ícones utilizados no site
+│   ├── fonts/                 # Fontes personalizadas
+│   ├── docs/
+│   ├── privacy-policy.html     # Política de privacidade
+│   └── terms-of-service.html   # Termos de serviço
+├── index.html                 # Página de entrada da aplicação
+├── README.md                  # Documentação geral
+├── .gitignore                 # Arquivo para ignorar arquivos no Git
+└── package.json               # Dependências do projeto (se necessário)
+
+

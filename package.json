@@ -1,0 +1,52 @@
+{
+  "name": "zmagic12",
+  "version": "12.60.0",
+  "description": "ZMagic12 - Plataforma completa para criação de formulários e macros poderosas",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve . -p 3000",
+    "build": "echo 'Static build completed successfully'",
+    "start": "npx serve . -p 8080",
+    "preview": "npx serve . -p 4173",
+    "deploy": "vercel --prod",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "npx netlify deploy --prod --dir=.",
+    "test": "echo 'No tests specified' && exit 0"
+  },
+  "keywords": [
+    "forms",
+    "macros",
+    "low-code",
+    "form-builder",
+    "automation",
+    "portugal",
+    "portuguese",
+    "vercel",
+    "static-site"
+  ],
+  "author": "ZMagic12 Team",
+  "license": "MIT",
+  "homepage": "https://zmagic12.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seuuser/ZMagic12-ver-12.60.git"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "files": [
+    "index.html",
+    "404.html",
+    "public/**/*",
+    "core/**/*",
+    "*.md"
+  ]
+} 

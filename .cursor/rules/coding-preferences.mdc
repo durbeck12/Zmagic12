@@ -1,0 +1,56 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ ### 🛠 **Coding Pattern Preferences**  
+
+#### Princípios Gerais
+
+- **Simplicidade em primeiro lugar:** Priorize soluções diretas e eficientes, evitando complexidade desnecessária.
+- **Evitar duplicação de código:** Verifique sempre a base de código existente antes de criar novas funcionalidades ou métodos.
+- **Arquitetura modular:** Siga a estrutura de componentes e gerenciadores estabelecida no projeto (StateManager, BlockManager, etc.).
+- **Consistência visual:** Utilize as variáveis CSS e os padrões de estilo definidos em `main.css` e outros arquivos CSS.
+
+#### Documentação
+
+- **Arquivo de registro de funções:** Mantenha o arquivo `guia_de_desenvolvimento.md` atualizado com:
+  - Todas as funções do projeto em ordem cronológica do workflow
+  - Descrição detalhada da funcionalidade de cada função
+  - Arquivo onde a função está definida
+  - Dependências da função (indicando arquivos)
+  - Funções que dependem desta função (indicando arquivos)
+- **Documentação de CSS:** Ao adicionar ou modificar estilos, atualize a documentação nos arquivos CSS correspondentes (ex: `css_overview.md`).
+- **Comentários claros:** Use comentários para explicar lógica complexa, especialmente em fluxos como validação de conexões ou geração de código.
+
+#### Estrutura do Código
+
+- **Padrão de componentes:** Mantenha a estrutura de classes com construtores consistentes que recebem `container` e `stateManager`.
+- **Eventos centralizados:** Use o sistema de eventos do `StateManager` para comunicação entre componentes.
+- **Nomes descritivos:** Nomeie funções, variáveis e classes de forma descritiva seguindo o padrão camelCase existente.
+- **Tamanho dos arquivos:** Mantenha arquivos dentro de limites razoáveis (~500 linhas). Se um arquivo ficar muito grande, considere dividí-lo em componentes menores.
+
+#### Interação Visual
+
+- **Codificação por cores:** Siga o sistema de codificação por cores para diferentes tipos de blocos:
+  - Variáveis: Verde (#2ecc71)
+  - Controle de fluxo: Vermelho (#e74c3c)
+  - Operações matemáticas: Laranja (#f39c12)
+  - Saída: Roxo (#9b59b6)
+  - Manipulação de dados: Azul (#3498db)
+- **Feedback visual:** Forneça feedback visual claro para ações do usuário (seleção, hover, erro).
+- **Consistência de formulários:** Mantenha a aparência consistente para controles de entrada em painéis de propriedades.
+
+#### Ambientes e Implantação
+
+- **Consideração para diferentes ambientes:** Garanta que o código funcione corretamente em ambientes **dev, test e prod**.
+- **Mudanças controladas:** Faça apenas alterações solicitadas ou que sejam claramente necessárias e bem compreendidas.
+- **Correção de bugs:** Tente resolver problemas dentro do padrão atual antes de introduzir uma nova tecnologia ou padrão.
+- **Evitar scripts temporários:** Não inclua scripts para uso único diretamente em arquivos de produção.
+
+#### Referência para IA
+
+- **Comentários para IA:** Adicione comentários específicos que ajudem a IA a compreender a estrutura do código e seus padrões.
+- **Mapeamento de arquivos:** Mantenha uma documentação clara da estrutura de arquivos e suas responsabilidades.
+- **Exemplos de código:** Forneça exemplos concretos de padrões de código para referência da IA ao solicitar novos recursos.
+- **Vocabulário consistente:** Use termos consistentes ao se referir a componentes e funcionalidades (ex: sempre use "bloco" em vez de alternar entre "bloco" e "nó").

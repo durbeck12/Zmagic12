@@ -1,0 +1,123 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ ### 🤖 **AI Assistance Guidelines**
+
+#### Consultas Eficientes
+
+- **Estrutura de Consultas:**
+  - Seja específico sobre qual componente está trabalhando (ex: "BlockManager", "ConnectionManager")
+  - Inclua o nome do arquivo relevante (ex: "no arquivo TreeManager.js")
+  - Descreva o contexto e o problema claramente
+  - Forneça exemplos de código existentes como referência
+
+- **Consultas por Categoria:**
+  - **Navegação**: "Mostre a implementação de `BlockManager.createBlock`"
+  - **Funcionamento**: "Como as conexões são validadas?"
+  - **Estilização**: "Como é feita a estilização dos blocos matemáticos?"
+  - **Fluxo**: "Qual é o fluxo quando um usuário cria um novo bloco?"
+
+#### Exemplos Práticos
+
+- **Consultas de Navegação:**
+  ```
+  Onde está implementada a validação de conexões entre blocos?
+  Mostre a estrutura da classe TreeManager
+  Quais são os tipos de blocos implementados na BlockLibrary?
+  ```
+
+- **Consultas de Implementação:**
+  ```
+  Como implementar um novo tipo de bloco para operações de string?
+  Como adicionar um novo método para exportar o código gerado?
+  Como estender o painel de propriedades para suportar um novo tipo de entrada?
+  ```
+
+- **Consultas CSS:**
+  ```
+  Como estilizar um novo tipo de bloco seguindo o padrão existente?
+  Como implementar um novo estado visual para blocos inválidos?
+  Como adaptar o tema para suportar tema claro além do escuro?
+  ```
+
+#### Fornecimento de Contexto
+
+- **Compartilhamento de Código:**
+  - Inclua trechos relevantes do código atual ao fazer perguntas
+  - Destaque as áreas problemáticas ou que precisam de modificação
+  - Forneça exemplos de código similar já implementado
+
+- **Referências a Arquivos:**
+  - Referencie arquivos específicos que precisam ser modificados
+  - Mencione outros arquivos relacionados que podem ser afetados
+  - Indique onde encontrar exemplos semelhantes no projeto
+
+#### Solicitação de Modificações
+
+- **Criação de Componentes:**
+  ```
+  Crie um novo componente `ColorPicker` no painel de propriedades seguindo o padrão 
+  dos outros componentes de entrada e usando as variáveis CSS existentes
+  ```
+
+- **Extensão de Funcionalidades:**
+  ```
+  Adicione suporte para blocos do tipo 'array' no BlockManager, 
+  seguindo o padrão dos outros tipos e implementando a validação adequada
+  ```
+
+- **Correção de Problemas:**
+  ```
+  No arquivo ConnectionManager.js, a validação de conexões não está considerando 
+  blocos do tipo 'loop'. Como posso corrigir isso seguindo o padrão existente?
+  ```
+
+#### Memória e Progresso
+
+- **Referência a Conversas Anteriores:**
+  - Mencione soluções ou discussões de sessões anteriores
+  - Indique o que já foi tentado e não funcionou
+  - Forneça contexto sobre o progresso atual do projeto
+
+- **Documentação de Decisões:**
+  - Documente decisões importantes em comentários no código
+  - Mantenha o arquivo `guia_de_desenvolvimento.md` atualizado
+  - Adicione exemplos de uso para referência futura
+
+#### Comunicação de Limitações
+
+- **Descreva Problemas Claramente:**
+  - Seja específico sobre o problema encontrado
+  - Inclua mensagens de erro completas
+  - Descreva o comportamento esperado vs. o observado
+
+- **Limitações de Conhecimento:**
+  - Indique quando estiver trabalhando com uma parte do sistema que a IA pode não ter visto antes
+  - Forneça exemplos similares para orientar a IA
+  - Seja claro sobre as restrições técnicas ou requisitos
+
+#### Consistência e Evolução
+
+- **Mantenha Vocabulário Consistente:**
+  - Use os mesmos termos para conceitos (ex: "bloco" vs "nó")
+  - Mantenha nomes de componentes consistentes
+  - Utilize a terminologia específica do projeto (Canvas, Tree, Properties Panel)
+
+- **Documentação para IA:**
+  - Adicione comentários no código específicos para assistência de IA
+  - Mantenha exemplos complexos documentados
+  - Atualize a documentação com padrões úteis descobertos
+
+#### Colaboração Eficiente
+
+- **Ciclo de Feedback:**
+  - Forneça feedback sobre as soluções oferecidas pela IA
+  - Documente abordagens que funcionaram bem
+  - Refine consultas com base na eficácia das respostas anteriores
+
+- **Resumo de Progresso:**
+  - Periodicamente, resuma o estado atual do projeto
+  - Mantenha uma lista de tarefas pendentes e concluídas
+  - Documente desafios superados para referência futura

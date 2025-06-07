@@ -1,0 +1,76 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+### 📚 **Documentation Standards**
+
+#### Estrutura Geral
+Cada arquivo de Memória Descritiva (.md) deve seguir esta estrutura padrão:
+
+```markdown
+# [Nome do Arquivo]
+
+## Descrição
+Breve descrição do propósito e função do arquivo.
+
+## Dependências
+Lista de outros arquivos ou bibliotecas dos quais este depende.
+
+## Componentes/Classes/Funções
+Documentação detalhada de cada componente, classe ou função principal:
+
+### [Nome do Componente/Classe/Função]
+Descrição detalhada.
+
+#### Propriedades
+- `propriedade1`: Descrição e tipo
+- `propriedade2`: Descrição e tipo
+
+#### Métodos
+- `método1(param1, param2)`: Descrição, parâmetros e valor de retorno
+- `método2()`: Descrição e valor de retorno
+
+## Exemplos de Uso
+```javascript
+// Exemplos práticos de código
+```
+
+## Notas e Limitações
+Informações adicionais, casos especiais, ou limitações conhecidas.
+```
+
+#### Especificações por Tipo de Arquivo
+
+**Para arquivos JavaScript (.js):**
+- Documentar todas as classes, métodos e propriedades
+- Incluir exemplos de eventos e fluxos de dados
+- Detalhar interações com outros componentes
+- Explicar algoritmos complexos e lógica de negócios
+
+**Para arquivos CSS (.css):**
+- Listar e explicar variáveis CSS
+- Documentar classes principais e seus propósitos
+- Explicar sistemas de layout (grid, flex)
+- Detalhar breakpoints responsivos e media queries
+- Incluir exemplos visuais quando aplicável
+
+**Para arquivos HTML (.html):**
+- Documentar estrutura geral
+- Explicar componentes e templates
+- Listar e descrever atributos personalizados
+- Detalhar acessibilidade e considerações SEO
+
+#### Manutenção
+
+- A documentação deve ser tratada com a mesma importância que o código
+- Qualquer alteração em um arquivo de código deve refletir em seu arquivo .md correspondente
+- A linguagem deve ser clara, concisa e profissional
+- Utilizar Markdown para formatar a documentação adequadamente:
+  - Títulos e subtítulos com # e ##
+  - Código com ```javascript ou ```css
+  - Listas com - ou números
+  - Tabelas para informações estruturadas
+  - Links para referências cruzadas entre arquivos 
+
+  

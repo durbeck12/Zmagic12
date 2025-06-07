@@ -1,0 +1,112 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ ### 🚀 **Technical Stack Guidelines**  
+
+#### Arquitetura Frontend
+
+- **Base tecnológica:**
+  - JavaScript puro (Vanilla JS) para componentes e lógica principal
+  - HTML DOM manipulado diretamente via JavaScript
+  - CSS com arquitetura de arquivos modular
+  - Evite dependências externas desnecessárias
+
+- **Estrutura CSS:**
+  - Variáveis CSS para temas consistentes
+  - Arquivos CSS dedicados para cada componente principal
+  - Nomenclatura baseada em componentes e funcionalidades
+  - Sistema de cores codificado para tipos de blocos
+
+- **Sistema de componentes:**
+  - Gerenciadores para encapsular a lógica de cada subsistema (BlockManager, ConnectionManager, etc.)
+  - Classes com responsabilidades bem definidas
+  - Sistema de eventos centralizado via StateManager
+  - Padrão constructor(container, stateManager) para inicialização
+
+#### Editor de Código
+
+- **Editor Básico e Avançado:**
+  - Editor básico usa textareas com estilização personalizada
+  - Editor avançado inclui destaque de sintaxe
+  - Implementação de analisador de código para validação
+  - Funcionalidade de interação bidirecional (editor<->blocos visuais)
+
+- **Elementos Visuais:**
+  - Canvas para renderização de blocos e conexões
+  - Elementos DOM para interações complexas
+  - Sistema de drag-and-drop personalizado
+  - Feedback visual por meio de cores e animações
+
+#### Gerenciamento de Estado
+
+- **Estado Centralizado:**
+  - StateManager como fonte única de verdade
+  - Sistema publish/subscribe para comunicação entre componentes
+  - Histórico de modificações para undo/redo
+  - Validação centralizada de operações
+
+- **Persistência de Dados:**
+  - Serialização de estado para JSON
+  - Carregamento e salvamento de projetos
+  - Validação de integridade dos dados
+
+#### Interação e Acessibilidade
+
+- **Interação do Usuário:**
+  - Manipulação direta para arrastar blocos
+  - Painéis de propriedades para edição
+  - Visualização em árvore para navegação hierárquica
+  - Feedback visual claro para todas as interações
+
+- **Padrões de Design:**
+  - Tema escuro com contraste adequado
+  - Cores distintas para diferentes tipos de blocos
+  - Indicadores visuais para estados (seleção, erro, etc.)
+  - Transições e animações sutis para melhorar a experiência
+
+#### Ambiente de Desenvolvimento
+
+- **Estrutura do Projeto:**
+  - Organização em diretórios por funcionalidade (blocks/, canvas/, etc.)
+  - Documentação inline e externa (guia_de_desenvolvimento.md)
+  - Convenções de nomenclatura consistentes
+  - Arquivos CSS correspondentes para cada componente principal
+
+- **Ferramentas de Desenvolvimento:**
+  - Console do navegador para depuração
+  - Inspetor de elementos para ajuste de estilos
+  - Documentação extensiva para referência
+  - Cursor IDE com assistência de IA
+
+#### Integração com IA
+
+- **Assistência ao Desenvolvimento:**
+  - Documentação otimizada para consultas de IA
+  - Exemplos de código para referência
+  - Comentários explicativos para contexto
+  - Arquivos de regras para padronização
+
+- **Padrões para IA:**
+  - Estrutura de arquivos previsível
+  - Vocabulário consistente em todo o código
+  - Exemplos concretos de implementações
+  - Guias de desenvolvimento detalhados
+
+#### Ambientes Separados
+
+- **Desenvolvimento:**
+  - Modo de depuração ativado
+  - Logs detalhados
+  - Carregamento de exemplos para teste
+
+- **Teste:**
+  - Validação de componentes e interações
+  - Testes de fluxos completos
+  - Verificação de casos extremos
+
+- **Produção:**
+  - Otimização de desempenho
+  - Remoção de logs desnecessários
+  - Manejo de erros amigável ao usuário
