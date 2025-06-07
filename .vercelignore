@@ -10,4 +10,12 @@ node_modules
 !package.json
 !vercel.json
 !public/**
-!core/** 
+!core/**
+
+# Ignorar ficheiros de desenvolvimento
+.gitignore
+README.md
+DEVELOPMENT_GUIDE.md
+RIBBON_DEVELOPMENT_GUIDE.md
+i18n-system-overview.md
+summary.txt 

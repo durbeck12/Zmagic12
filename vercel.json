@@ -9,12 +9,33 @@
   ],
   "routes": [
     {
-      "src": "/",
+      "src": "^/$",
       "dest": "/index.html"
     },
     {
-      "src": "/(.+)",
-      "dest": "/$1"
+      "src": "^/index\\.html$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/debug\\.html$",
+      "dest": "/debug.html"
+    },
+    {
+      "src": "^/404\\.html$",
+      "dest": "/404.html"
+    },
+    {
+      "src": "^/public/(.*)$",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "^/core/(.*)$",
+      "dest": "/core/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/404.html",
+      "status": 404
     }
   ],
   "headers": [
@@ -32,6 +53,15 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/public/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     }
