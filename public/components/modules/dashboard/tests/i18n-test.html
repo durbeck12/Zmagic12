@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Internacionalização - Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --background-color: #f5f7fa;
+            --card-color: #ffffff;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: var(--card-color);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .title {
+            margin: 0;
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .language-selector {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-selector label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .language-selector select {
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 14px;
+        }
+        
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .test-item {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            background-color: white;
+        }
+        
+        .test-item h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+        
+        .translation {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-word;
+        }
+        
+        .logs {
+            height: 200px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .log-entry {
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        
+        .log-info {
+            background-color: #e3f2fd;
+        }
+        
+        .log-error {
+            background-color: #ffebee;
+            color: var(--error-color);
+        }
+        
+        .log-success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            background-color: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+    </style>
+    
+    <!-- Arquivos de idioma -->
+    <script src="../js/langs/pt-PT.js"></script>
+    <script src="../js/langs/en-US.js"></script>
+    <script src="../js/langs/fr-FR.js"></script>
+    <script src="../js/langs/es-ES.js"></script>
+    <script src="../js/langs/de-DE.js"></script>
+    <script src="../js/langs/zh-CN.js"></script>
+    
+    <!-- Importação do sistema de i18n será feita via import no script type="module" abaixo -->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Teste de Internacionalização - Dashboard</h1>
+            <div class="language-selector">
+                <label for="language-selector">Idioma:</label>
+                <select id="language-selector">
+                    <option value="pt-PT">Português (Portugal)</option>
+                    <option value="en-US">English (US)</option>
+                    <option value="fr-FR">Français (France)</option>
+                    <option value="es-ES">Español (España)</option>
+                    <option value="de-DE">Deutsch (Deutschland)</option>
+                    <option value="zh-CN">中文 (简体)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="test-buttons">
+            <button id="run-tests" class="btn btn-success">Executar Testes</button>
+            <button id="clear-logs" class="btn">Limpar Logs</button>
+            <button id="load-all-languages" class="btn btn-warning">Carregar Todos os Idiomas</button>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Logs de Teste</h2>
+            <div id="logs" class="logs"></div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Resultado dos Testes</h2>
+            <div id="test-results" class="test-grid"></div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import SharedI18n from '../../../shared/js/SharedI18n.js';
+        import dashboardI18n from '../js/i18n-dashboard.js';
+        
+        // Tornar disponível globalmente para compatibilidade com o código de teste
+        window.dashboardI18n = dashboardI18n;
+        
+        // Chaves de tradução que devem ser testadas em todos os idiomas
+        const testKeys = [
+            'dashboard.header.new_project',
+            'dashboard.tabs.projects',
+            'dashboard.tabs.archived',
+            'dashboard.tabs.templates',
+            'dashboard.new_project_modal.title',
+            'dashboard.new_project_modal.create_button',
+            'dashboard.edit_project_modal.title',
+            'dashboard.projects.empty_state',
+            'dashboard.loading',
+            'dashboard.success.project_created',
+            'dashboard.error.load_projects'
+        ];
+        
+        // Elementos da UI
+        const languageSelector = document.getElementById('language-selector');
+        const runTestsButton = document.getElementById('run-tests');
+        const clearLogsButton = document.getElementById('clear-logs');
+        const loadAllLanguagesButton = document.getElementById('load-all-languages');
+        const logsContainer = document.getElementById('logs');
+        const testResultsContainer = document.getElementById('test-results');
+        
+        // Inicializar com o idioma salvo no localStorage
+        if (localStorage.getItem('locale')) {
+            languageSelector.value = localStorage.getItem('locale');
+        }
+        
+        // Função para adicionar uma entrada ao log
+        function addLogEntry(type, message) {
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logsContainer.appendChild(entry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+        
+        // Função para limpar os logs
+        function clearLogs() {
+            logsContainer.innerHTML = '';
+            addLogEntry('info', 'Logs limpos');
+        }
+        
+        // Função para exibir os resultados dos testes
+        function displayTestResults(locale, results) {
+            // Criar ou atualizar a seção para este idioma
+            let localeSection = document.getElementById(`locale-${locale}`);
+            if (!localeSection) {
+                localeSection = document.createElement('div');
+                localeSection.id = `locale-${locale}`;
+                localeSection.className = 'test-item';
+                testResultsContainer.appendChild(localeSection);
+                
+                const title = document.createElement('h3');
+                title.textContent = `Idioma: ${locale}`;
+                localeSection.appendChild(title);
+            } else {
+                // Limpar resultados anteriores
+                while (localeSection.childNodes.length > 1) {
+                    localeSection.removeChild(localeSection.lastChild);
+                }
+            }
+            
+            // Adicionar cada resultado de tradução
+            for (const key in results) {
+                const value = results[key];
+                
+                const translationDiv = document.createElement('div');
+                translationDiv.className = 'translation';
+                
+                const keySpan = document.createElement('span');
+                keySpan.style.fontWeight = 'bold';
+                keySpan.textContent = key + ': ';
+                
+                const valueSpan = document.createElement('span');
+                valueSpan.textContent = value || '(tradução não encontrada)';
+                
+                translationDiv.appendChild(keySpan);
+                translationDiv.appendChild(valueSpan);
+                localeSection.appendChild(translationDiv);
+            }
+        }
+        
+        // Função para executar os testes para um idioma específico
+        async function runTestsForLocale(locale) {
+            addLogEntry('info', `Executando testes para idioma: ${locale}`);
+            
+            try {
+                // Verificar se temos acesso ao gerenciador de i18n
+                if (!window.dashboardI18n) {
+                    throw new Error('Gerenciador de I18n não encontrado');
+                }
+                
+                // Carregar o idioma se ainda não estiver carregado
+                await window.dashboardI18n.loadTranslations(locale);
+                
+                // Definir o idioma atual
+                window.dashboardI18n.setLanguage(locale);
+                
+                // Testar cada chave de tradução
+                const results = {};
+                testKeys.forEach(key => {
+                    results[key] = window.dashboardI18n.translate(key);
+                });
+                
+                // Exibir os resultados
+                displayTestResults(locale, results);
+                
+                addLogEntry('success', `Testes concluídos para idioma: ${locale}`);
+                return {
+                    locale,
+                    success: true,
+                    results
+                };
+            } catch (error) {
+                addLogEntry('error', `Erro ao executar testes para ${locale}: ${error.message}`);
+                return {
+                    locale,
+                    success: false,
+                    error: error.message
+                };
+            }
+        }
+        
+        // Função principal para executar todos os testes
+        async function runAllTests() {
+            try {
+                clearLogs();
+                addLogEntry('info', 'Iniciando testes de internacionalização...');
+                
+                // Obter o idioma atual do seletor
+                const currentLocale = languageSelector.value;
+                
+                // Executar testes para o idioma atual
+                const results = await runTestsForLocale(currentLocale);
+                
+                if (results.success) {
+                    addLogEntry('success', 'Todos os testes foram concluídos com sucesso');
+                } else {
+                    addLogEntry('error', 'Ocorreram erros durante os testes');
+                }
+            } catch (error) {
+                addLogEntry('error', `Erro inesperado: ${error.message}`);
+                console.error('Erro nos testes:', error);
+            }
+        }
+        
+        // Carregar todos os idiomas disponíveis
+        async function loadAllLanguages() {
+            try {
+                addLogEntry('info', 'Carregando todos os idiomas suportados...');
+                
+                if (!window.dashboardI18n) {
+                    throw new Error('Gerenciador de I18n não encontrado');
+                }
+                
+                const supportedLocales = window.dashboardI18n.supportedLocales;
+                addLogEntry('info', `Idiomas suportados: ${supportedLocales.join(', ')}`);
+                
+                // Carregar cada idioma e executar testes
+                const results = await Promise.all(
+                    supportedLocales.map(locale => 
+                        window.dashboardI18n.loadTranslations(locale)
+                            .then(() => runTestsForLocale(locale))
+                            .catch(error => {
+                                addLogEntry('error', `Erro ao carregar ${locale}: ${error.message}`);
+                                return {
+                                    locale,
+                                    success: false,
+                                    error: error.message
+                                };
+                            })
+                    )
+                );
+                
+                const successCount = results.filter(r => r.success).length;
+                addLogEntry('success', `Carregamento concluído: ${successCount} de ${supportedLocales.length} idiomas carregados com sucesso`);
+            } catch (error) {
+                addLogEntry('error', `Erro ao carregar idiomas: ${error.message}`);
+            }
+        }
+        
+        // Configurar event listeners
+        languageSelector.addEventListener('change', () => {
+            const locale = languageSelector.value;
+            localStorage.setItem('locale', locale);
+            addLogEntry('info', `Idioma alterado para: ${locale}`);
+            
+            // Se o gerenciador de i18n estiver disponível, também alterar o idioma nele
+            if (window.dashboardI18n) {
+                window.dashboardI18n.setLanguage(locale);
+            }
+        });
+        
+        runTestsButton.addEventListener('click', runAllTests);
+        clearLogsButton.addEventListener('click', clearLogs);
+        loadAllLanguagesButton.addEventListener('click', loadAllLanguages);
+        
+        // Inicializar
+        addLogEntry('info', 'Página de testes carregada');
+        
+        // Se o gerenciador de i18n já estiver disponível, exibir sua versão
+        if (window.dashboardI18n) {
+            addLogEntry('info', `I18nManager disponível: ${window.dashboardI18n.constructor.name}`);
+        } else {
+            addLogEntry('warning', 'I18nManager não está disponível. Verifique se os scripts de i18n foram carregados.');
+        }
+    </script>
+</body>
+</html> 

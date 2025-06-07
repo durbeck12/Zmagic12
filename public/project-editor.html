@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Projeto - ZMagic</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="components/shared/css/common.css">
+    <link rel="stylesheet" href="components/modules/dashboard/css/dashboard.css">
+    
+    <!-- Estilos adicionais para o editor -->
+    <style>
+        .editor-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--surface-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .editor-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .editor-content {
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: var(--shadow-md);
+            z-index: 1000;
+        }
+        
+        .error-message {
+            background-color: var(--error-color);
+        }
+        
+        .success-message {
+            background-color: var(--success-color);
+        }
+    </style>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <div class="editor-container">
+        <div class="editor-header">
+            <h1 class="editor-title">Editor de Projeto</h1>
+            <button id="backButton" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+        </div>
+        
+        <div class="editor-content">
+            <form id="project-edit-form">
+                <input type="hidden" id="project-id" name="project-id">
+                
+                <div class="form-group">
+                    <label for="project-name">Nome do Projeto</label>
+                    <input type="text" id="project-name" name="project-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="project-description">Descrição</label>
+                    <textarea id="project-description" name="project-description" rows="6"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="project-template" name="project-template">
+                        Marcar como modelo
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="project-archived" name="project-archived">
+                        Arquivar projecto
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="cancel-button" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        import SupabaseConfig from './components/modules/dashboard/js/utils/SupabaseClient.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const supabase = SupabaseConfig.getClient();
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const projectForm = document.getElementById('project-edit-form');
+            const projectIdInput = document.getElementById('project-id');
+            const projectNameInput = document.getElementById('project-name');
+            const projectDescriptionInput = document.getElementById('project-description');
+            const projectTemplateCheckbox = document.getElementById('project-template');
+            const projectArchivedCheckbox = document.getElementById('project-archived');
+            const backButton = document.getElementById('backButton');
+            const cancelButton = document.getElementById('cancel-button');
+            
+            // Obter ID do projeto da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+            
+            if (!projectId) {
+                showError('ID do projecto não fornecido');
+                return;
+            }
+            
+            // Carregar dados do projeto
+            try {
+                showLoading();
+                
+                // Verificar autenticação
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                
+                if (authError || !user) {
+                    console.error('Erro de autenticação:', authError);
+                    window.location.href = '/login.html';
+                    return;
+                }
+                
+                // Buscar dados do projeto
+                const { data: project, error } = await supabase
+                    .from('projects')
+                    .select('*')
+                    .eq('id', projectId)
+                    .single();
+                
+                if (error) {
+                    console.error('Erro ao buscar projeto:', error);
+                    showError('Erro ao carregar dados do projecto');
+                    return;
+                }
+                
+                if (!project) {
+                    showError('Projecto não encontrado');
+                    return;
+                }
+                
+                // Verificar se o usuário é dono do projeto
+                if (project.user_id !== user.id) {
+                    showError('Não tem permissão para editar este projecto');
+                    return;
+                }
+                
+                // Preencher formulário
+                projectIdInput.value = project.id;
+                projectNameInput.value = project.internal_name;
+                projectDescriptionInput.value = project.internal_description || '';
+                projectTemplateCheckbox.checked = project.template_proj;
+                projectArchivedCheckbox.checked = project.archived_proj;
+                
+                // Atualizar título da página
+                document.title = `Editando: ${project.internal_name} - ZMagic`;
+                
+                hideLoading();
+            } catch (error) {
+                console.error('Erro ao carregar projeto:', error);
+                showError('Erro ao carregar dados do projecto');
+                hideLoading();
+            }
+            
+            // Event listeners
+            projectForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                
+                // Validar formulário
+                if (!projectNameInput.value.trim()) {
+                    showError('O nome do projecto é obrigatório');
+                    return;
+                }
+                
+                // Salvar alterações
+                try {
+                    showLoading();
+                    
+                    const { data, error } = await supabase
+                        .from('projects')
+                        .update({
+                            internal_name: projectNameInput.value.trim(),
+                            internal_description: projectDescriptionInput.value.trim(),
+                            template_proj: projectTemplateCheckbox.checked,
+                            archived_proj: projectArchivedCheckbox.checked,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', projectId)
+                        .select()
+                        .single();
+                    
+                    if (error) {
+                        console.error('Erro ao atualizar projeto:', error);
+                        showError('Erro ao guardar alterações');
+                        hideLoading();
+                        return;
+                    }
+                    
+                    showSuccess('Projecto actualizado com sucesso');
+                    
+                    // Aguardar mensagem aparecer antes de voltar
+                    setTimeout(() => {
+                        window.close();
+                        // Fallback caso window.close não funcione (navegadores modernos frequentemente bloqueiam)
+                        window.location.href = '/components/modules/dashboard/index.html';
+                    }, 1500);
+                } catch (error) {
+                    console.error('Erro ao atualizar projeto:', error);
+                    showError('Erro ao guardar alterações');
+                    hideLoading();
+                }
+            });
+            
+            // Lidar com botão voltar/cancelar
+            [backButton, cancelButton].forEach(button => {
+                button.addEventListener('click', () => {
+                    window.close();
+                    // Fallback caso window.close não funcione
+                    window.location.href = '/components/modules/dashboard/index.html';
+                });
+            });
+            
+            // Funções utilitárias
+            function showLoading() {
+                loadingOverlay.style.display = 'flex';
+            }
+            
+            function hideLoading() {
+                loadingOverlay.style.display = 'none';
+            }
+            
+            function showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message error-message';
+                errorDiv.textContent = message;
+                document.body.appendChild(errorDiv);
+                
+                setTimeout(() => {
+                    document.body.removeChild(errorDiv);
+                }, 5000);
+            }
+            
+            function showSuccess(message) {
+                const successDiv = document.createElement('div');
+                successDiv.className = 'message success-message';
+                successDiv.textContent = message;
+                document.body.appendChild(successDiv);
+                
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html> 

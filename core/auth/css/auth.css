@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f5f7fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.auth-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-header h1 {
+    color: #1e3c72;
+    margin-bottom: 10px;
+}
+
+.auth-header p {
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-btn {
+    background: #1e3c72;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover {
+    background: #2a5298;
+}
+
+.auth-btn.primary-btn {
+    background: #1e3c72;
+}
+
+.auth-btn.primary-btn:hover {
+    background: #2a5298;
+}
+
+.auth-btn.secondary-btn {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.auth-btn.secondary-btn:hover {
+    background: #e9e9e9;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+.auth-footer a {
+    color: #1e3c72;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Logged in user container */
+.logged-user-container {
+    background: #f0f5ff;
+    border: 1px solid #d0e1ff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.logged-user-info {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.logged-user-info p {
+    color: #1e3c72;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.logged-user-info span#logged-user-email {
+    font-weight: bold;
+}
+
+.logged-user-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error-message {
+    color: #f44336;
+    text-align: center;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.success-message {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    color: #4CAF50;
+}
+
+.test-mode {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.test-mode p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.test-login-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #1e3c72;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.back-link::before {
+    content: '←';
+    margin-right: 5px;
+    font-size: 18px;
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+}
+
+.loading-indicator .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #1e3c72;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.connection-status {
+    padding: 10px;
+    text-align: center;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: white;
+    display: none;
+}
+
+.connection-status.online {
+    background-color: #4caf50;
+}
+
+.connection-status.offline {
+    background-color: #ff9800;
+}
+
+.connection-status.error {
+    background-color: #f44336;
+}
+
+/* Estilos para idiomas */
+.language-selector {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.language-selector select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+        margin: 0 15px;
+    }
+    
+    .back-link {
+        top: 10px;
+        left: 10px;
+    }
+} 

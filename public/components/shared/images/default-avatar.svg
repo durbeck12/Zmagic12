@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <!-- Fundo do avatar -->
+  <circle cx="60" cy="60" r="58" fill="#f0f0f0" stroke="#2980b9" stroke-width="2" />
+  
+  <!-- Silhueta da cabeça -->
+  <circle cx="60" cy="45" r="25" fill="#2980b9" />
+  
+  <!-- Corpo -->
+  <path d="M30 115 C 40 80, 80 80, 90 115" fill="#2980b9" />
+  
+  <!-- Detalhes do rosto (opcional) - simplifiquei para manter minimalista -->
+</svg> 

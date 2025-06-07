@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMagic12</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ribbon.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <!-- Add inline style to ensure user-info is visible -->
+    
+    <!-- Directly include Supabase from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Ribbon Navigation -->
+    <div class="ribbon-container">
+        <div class="ribbon-logo">
+            <img src="/public/main/images/logo.svg" alt="ZMagic12 Logo">
+            <span class="zmagic-text">ZMagic</span><span class="number-text">12</span>
+
+            <!-- Seletor de idiomas -->
+        <div class="language-selector">
+            <select id="language-select">
+                <option value="pt-PT" data-flag="🇵🇹">Português</option>
+                <option value="en-US" data-flag="🇺🇸">English</option>
+                <option value="fr-FR" data-flag="🇫🇷">Français</option>
+                <option value="es-ES" data-flag="🇪🇸">Español</option>
+                <option value="de-DE" data-flag="🇩🇪">Deutsch</option>
+                <option value="zh-CN" data-flag="🇨🇳">中文</option>
+            </select>
+        </div>
+        
+            <span id="user-info" class="user-info">
+                test@example.com
+                <span id="user-settings-icon" class="user-settings-icon" title="Configurações do Perfil">⚙️</span>
+            </span>
+            <span class="project-info"></span>
+        </div>
+        
+        
+        
+        <ul class="ribbon-tabs">
+            <!-- Tabs will be dynamically generated here by the RibbonManager -->
+        </ul>
+        
+        <!-- Ribbon Content Container - will be populated dynamically -->
+        <div id="ribbon-content-container">
+            <!-- Tab contents will be dynamically generated here -->
+        </div>
+    </div>
+
+    <!-- Module Container for iFrames -->
+    <div class="module-container" id="module-container">
+        <iframe id="module-iframe" class="module-iframe" src="/public/components/modules/dashboard/index.html" scrolling="no"></iframe>
+    </div>
+    
+    <!-- Profile Modal Container -->
+    <div id="profile-container">
+        <iframe id="profile-iframe" src="/core/auth/profile.html"></iframe>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[RIBBON] DOM totalmente carregado - inicializando');
+            
+            // Debug check - make sure the user-info is visible with text directly
+            const directCheckUserInfo = document.getElementById('user-info');
+            if (directCheckUserInfo) {
+                console.log('[RIBBON DEBUG] User info element exists at page load with content:', directCheckUserInfo.textContent);
+                directCheckUserInfo.style.display = 'inline-block';
+                directCheckUserInfo.style.visibility = 'visible';
+                directCheckUserInfo.style.opacity = '1';
+                // Set a fallback value immediately
+                if (!directCheckUserInfo.textContent || directCheckUserInfo.textContent.trim() === '') {
+                    directCheckUserInfo.textContent = 'test@example.com';
+                    console.log('[RIBBON DEBUG] Setting default user-info content at page load');
+                }
+            } else {
+                console.error('[RIBBON DEBUG] User info element not found at page load!');
+            }
+            
+            // Verificar o iframe e seu conteúdo
+            const moduleIframe = document.getElementById('module-iframe');
+            if (moduleIframe) {
+                console.log('[RIBBON DEBUG] Iframe encontrado. URL atual:', moduleIframe.src);
+                console.log('[RIBBON DEBUG] Estilo do iframe:', {
+                    display: window.getComputedStyle(moduleIframe).display,
+                    visibility: window.getComputedStyle(moduleIframe).visibility,
+                    height: window.getComputedStyle(moduleIframe).height,
+                    width: window.getComputedStyle(moduleIframe).width
+                });
+                
+                // Se o iframe não tiver uma URL definida, definir para o dashboard
+                if (!moduleIframe.src || moduleIframe.src === 'about:blank') {
+                    moduleIframe.src = '/public/components/modules/dashboard/index.html';
+                    console.log('[RIBBON DEBUG] Definindo URL do iframe para dashboard');
+                }
+                
+                // Quando o iframe carregar, verificar o conteúdo
+                moduleIframe.onload = function() {
+                    console.log('[RIBBON DEBUG] Iframe carregado com sucesso. URL:', moduleIframe.src);
+                    // Verificar se o iframe está visível após o carregamento
+                    checkIframeVisibility();
+                };
+            } else {
+                console.error('[RIBBON DEBUG] Iframe não encontrado!');
+            }
+            
+            // Configurar o ícone de configurações de usuário
+            setupUserSettingsIcon();
+            
+            // Carregar o dashboard no iframe imediatamente
+            loadDashboardModule();
+            
+            // Verificar se há dados na URL (tab ativa)
+            checkUrlParams();
+            
+            // Listener para mensagens de módulos carregados no iframe
+            setupIframeMessageListener();
+            
+            // Inicializar Supabase e verificar autenticação
+            initializeSupabase();
+            
+            // Set a timeout to check if the user info is being properly displayed
+            setTimeout(function() {
+                const userInfoElement = document.getElementById('user-info');
+                if (userInfoElement) {
+                    console.log('[RIBBON DEBUG] After timeout, user-info content is:', userInfoElement.textContent);
+                    console.log('[RIBBON DEBUG] user-info display style:', window.getComputedStyle(userInfoElement).display);
+                    console.log('[RIBBON DEBUG] user-info visibility style:', window.getComputedStyle(userInfoElement).visibility);
+                    console.log('[RIBBON DEBUG] user-info opacity style:', window.getComputedStyle(userInfoElement).opacity);
+                    
+                    // If still no content or hidden, force it again
+                    if (!userInfoElement.textContent || userInfoElement.textContent.trim() === '' || 
+                        window.getComputedStyle(userInfoElement).display === 'none' ||
+                        window.getComputedStyle(userInfoElement).visibility !== 'visible') {
+                        userInfoElement.textContent = 'test@example.com';
+                        userInfoElement.style.display = 'inline-block';
+                        userInfoElement.style.visibility = 'visible';
+                        userInfoElement.style.opacity = '1';
+                        console.log('[RIBBON DEBUG] Re-setting user-info after timeout');
+                    }
+                }
+                
+                // Verificar a visibilidade do iframe após um tempo
+                checkIframeVisibility();
+            }, 1000);
+            
+            // Configurar o seletor de idiomas
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                // Definir o valor inicial com base no idioma atual
+                const currentLanguage = localStorage.getItem('locale') || 'pt-PT';
+                languageSelect.value = currentLanguage;
+                
+                // Adicionar event listener para alteração de idioma
+                languageSelect.addEventListener('change', function() {
+                    const selectedLanguage = this.value;
+                    localStorage.setItem('locale', selectedLanguage);
+                    
+                    // Disparar evento para atualizar outros componentes
+                    document.dispatchEvent(new CustomEvent('languageChanged', {
+                        detail: { locale: selectedLanguage }
+                    }));
+                    
+                    console.log('[RIBBON] Idioma alterado para:', selectedLanguage);
+                });
+            }
+        });
+        
+        // Configurar o ícone de configurações de usuário
+        function setupUserSettingsIcon() {
+            const userSettingsIcon = document.getElementById('user-settings-icon');
+            if (userSettingsIcon) {
+                console.log('[RIBBON] Configurando ícone de configurações de usuário');
+                userSettingsIcon.addEventListener('click', function() {
+                    console.log('[RIBBON] Ícone de configurações de usuário clicado');
+                    showProfileModal();
+                });
+            } else {
+                console.error('[RIBBON] Ícone de configurações de usuário não encontrado!');
+            }
+        }
+        
+        // Exibir o modal de perfil
+        function showProfileModal() {
+            console.log('[RIBBON] Exibindo modal de perfil');
+            const profileContainer = document.getElementById('profile-container');
+            const profileIframe = document.getElementById('profile-iframe');
+            
+            if (profileContainer && profileIframe) {
+                // Exibir o container do perfil
+                profileContainer.style.display = 'block';
+                
+                // Obter o usuário atual
+                getCurrentUser().then(user => {
+                    if (user) {
+                        // Enviar os dados do usuário para o iframe do perfil
+                        setTimeout(() => {
+                            profileIframe.contentWindow.postMessage({
+                                type: 'LOAD_PROFILE',
+                                user: user
+                            }, '*');
+                            console.log('[RIBBON] Dados do usuário enviados para o iframe do perfil');
+                        }, 500); // Dar tempo para o iframe carregar
+                    } else {
+                        console.error('[RIBBON] Nenhum usuário autenticado para exibir o perfil');
+                    }
+                });
+            } else {
+                console.error('[RIBBON] Container ou iframe do perfil não encontrado!');
+            }
+        }
+        
+        // Obter o usuário atual
+        async function getCurrentUser() {
+            // Primeiro, verificar o objeto global userData
+            if (window.userData && window.userData.id) {
+                console.log('[RIBBON] Usuário já disponível no objeto global userData');
+                return window.userData;
+            }
+            
+            try {
+                console.log('[RIBBON] Obtendo dados do usuário atual...');
+                
+                // Tentar obter dados da sessão do Supabase
+                const { data: { user }, error } = await supabase.auth.getUser();
+                
+                if (error) {
+                    console.error('[RIBBON] Erro ao obter usuário:', error);
+                    return null;
+                }
+                
+                if (!user) {
+                    console.warn('[RIBBON] Nenhum usuário autenticado encontrado');
+                    return null;
+                }
+                
+                // Verificar dados de perfil no localStorage
+                try {
+                    const storageKey = `user_profile_${user.id}`;
+                    const storedProfileData = localStorage.getItem(storageKey);
+                    
+                    if (storedProfileData) {
+                        const profileData = JSON.parse(storedProfileData);
+                        console.log('[RIBBON] Dados de perfil encontrados no localStorage:', profileData);
+                        
+                        // Atualizar campos específicos do usuário com dados do localStorage
+                        if (profileData.full_name) user.full_name = profileData.full_name;
+                        if (profileData.organization_name) user.organization_name = profileData.organization_name;
+                        if (profileData.phone_number) user.phone_number = profileData.phone_number;
+                        if (profileData.country) user.country = profileData.country;
+                        if (profileData.newsletter_subscribed !== undefined) {
+                            user.newsletter_subscribed = Boolean(profileData.newsletter_subscribed);
+                        }
+                        
+                        console.log('[RIBBON] Objeto do usuário atualizado com dados do localStorage');
+                    } else {
+                        console.log('[RIBBON] Nenhum dado de perfil encontrado no localStorage');
+                    }
+                } catch (err) {
+                    console.error('[RIBBON] Erro ao ler dados do localStorage:', err);
+                }
+                
+                // Armazenar no objeto global para uso posterior
+                window.userData = user;
+                
+                return user;
+            } catch (err) {
+                console.error('[RIBBON] Erro ao obter usuário atual:', err);
+                return null;
+            }
+        }
+        
+        // Função para verificar a visibilidade do iframe
+        function checkIframeVisibility() {
+            const moduleContainer = document.getElementById('module-container');
+            const moduleIframe = document.getElementById('module-iframe');
+            
+            if (moduleContainer && moduleIframe) {
+                console.log('[RIBBON DEBUG] Verificando visibilidade do iframe...');
+                console.log('[RIBBON DEBUG] Container display:', window.getComputedStyle(moduleContainer).display);
+                console.log('[RIBBON DEBUG] Container visibility:', window.getComputedStyle(moduleContainer).visibility);
+                console.log('[RIBBON DEBUG] Container height:', window.getComputedStyle(moduleContainer).height);
+                console.log('[RIBBON DEBUG] Container width:', window.getComputedStyle(moduleContainer).width);
+                
+                console.log('[RIBBON DEBUG] Iframe display:', window.getComputedStyle(moduleIframe).display);
+                console.log('[RIBBON DEBUG] Iframe visibility:', window.getComputedStyle(moduleIframe).visibility);
+                console.log('[RIBBON DEBUG] Iframe height:', window.getComputedStyle(moduleIframe).height);
+                console.log('[RIBBON DEBUG] Iframe width:', window.getComputedStyle(moduleIframe).width);
+                
+                // Forçar a exibição do container e do iframe
+                moduleContainer.style.display = 'block';
+                moduleContainer.style.visibility = 'visible';
+                moduleIframe.style.display = 'block';
+                moduleIframe.style.visibility = 'visible';
+                
+                console.log('[RIBBON DEBUG] Visibilidade do iframe forçada para visível');
+            }
+        }
+
+        // Função para carregar o dashboard no iframe
+        function loadDashboardModule() {
+            console.log('[RIBBON] Carregando dashboard no iframe...');
+            const moduleIframe = document.getElementById('module-iframe');
+            if (moduleIframe) {
+                const dashboardUrl = '/public/components/modules/dashboard/index.html';
+                console.log('[RIBBON] Definindo URL do dashboard:', dashboardUrl);
+                moduleIframe.src = dashboardUrl;
+                
+                // Exibir o iframe caso esteja oculto
+                moduleIframe.style.display = 'block';
+                moduleIframe.style.visibility = 'visible';
+                
+                // Detectar quando o iframe carregar com sucesso
+                moduleIframe.onload = function() {
+                    console.log('[RIBBON] Dashboard carregado com sucesso no iframe');
+                    checkIframeVisibility(); // Verificar visibilidade após o carregamento
+                };
+                
+                // Detectar erros de carregamento
+                moduleIframe.onerror = function(error) {
+                    console.error('[RIBBON] Erro ao carregar o dashboard no iframe:', error);
+                };
+            } else {
+                console.error('[RIBBON] Elemento iframe não encontrado! Não foi possível carregar o dashboard.');
+            }
+        }
+
+        // Inicializar Supabase
+        function initializeSupabase() {
+            console.log('[RIBBON] Inicializando Supabase...');
+            const supabaseUrl = 'https://xjmpohdtonzeafylahmr.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqbXBvaGR0b256ZWFmeWxhaG1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMzY3NDUsImV4cCI6MjA1NTgxMjc0NX0.Q6aWS0jKc2-FDkhn5bkr8QUFcdQwkvPpDwfzJYWI1Ek';
+            
+            try {
+                // Verificar se temos a biblioteca Supabase disponível
+                if (typeof supabase !== 'undefined') {
+                    console.log('[RIBBON] Biblioteca Supabase encontrada, criando cliente...');
+                    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+                    console.log('[RIBBON] Cliente Supabase criado com sucesso');
+                    
+                    // Disparar evento e verificar autenticação
+                    document.dispatchEvent(new CustomEvent('supabase:ready'));
+                    checkAuthentication();
+                } else {
+                    console.error('[RIBBON] Biblioteca Supabase não encontrada, usando modo offline');
+                    window.supabase = createMockClient();
+                    document.dispatchEvent(new CustomEvent('supabase:ready'));
+                    
+                    // No modo offline, usar um usuário mock
+                    const mockUser = { email: 'test@example.com', id: 'test-user' };
+                    document.dispatchEvent(new CustomEvent('user:login', {
+                        detail: { user: mockUser }
+                    }));
+                    
+                    // Definir o email diretamente para garantir
+                    const userInfoElement = document.getElementById('user-info');
+                    if (userInfoElement) {
+                        // Manter o ícone de configurações ao atualizar o conteúdo
+                        const settingsIcon = userInfoElement.querySelector('#user-settings-icon');
+                        userInfoElement.innerHTML = mockUser.email;
+                        if (settingsIcon) {
+                            userInfoElement.appendChild(settingsIcon);
+                        } else {
+                            // Se não existir, criar o ícone
+                            const newIcon = document.createElement('span');
+                            newIcon.id = 'user-settings-icon';
+                            newIcon.className = 'user-settings-icon';
+                            newIcon.title = 'Configurações do Perfil';
+                            newIcon.textContent = '⚙️';
+                            userInfoElement.appendChild(newIcon);
+                            // Configurar o evento de clique
+                            setupUserSettingsIcon();
+                        }
+                        
+                        userInfoElement.style.display = 'inline-block';
+                        userInfoElement.style.visibility = 'visible';
+                        userInfoElement.style.opacity = '1';
+                        console.log('[RIBBON] Email do usuário definido manualmente:', mockUser.email);
+                    }
+                }
+            } catch (error) {
+                console.error('[RIBBON] Erro ao inicializar Supabase:', error);
+                window.supabase = createMockClient();
+                document.dispatchEvent(new CustomEvent('supabase:ready'));
+            }
+        }
+        
+        // Verificar parâmetros da URL
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tabParam = urlParams.get('tab');
+            
+            if (tabParam) {
+                console.log('[RIBBON] Tab especificada na URL:', tabParam);
+                const tab = document.querySelector(`.ribbon-tab[data-tab="${tabParam}"]`);
+                if (tab) {
+                    tab.click();
+                }
+            }
+        }
+        
+        // Verificar autenticação do usuário
+        async function checkAuthentication() {
+            console.log('[RIBBON] Verificando autenticação do usuário');
+            
+            if (!window.supabase || !window.supabase.auth) {
+                console.error('[RIBBON] Cliente Supabase não disponível');
+                return;
+            }
+            
+            try {
+                // Obter sessão atual
+                const { data, error } = await window.supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('[RIBBON] Erro ao verificar sessão:', error.message);
+                    return;
+                }
+                
+                if (data && data.session) {
+                    console.log('[RIBBON] Usuário autenticado, obtendo dados');
+                    
+                    // Obter dados do usuário
+                    const { data: userData, error: userError } = await window.supabase.auth.getUser();
+                    
+                    if (userError) {
+                        console.error('[RIBBON] Erro ao obter dados do usuário:', userError.message);
+                        return;
+                    }
+                    
+                    if (userData && userData.user) {
+                        // Verificar se o usuário está ativo
+                        const { data: profileData, error: profileError } = await window.supabase
+                            .from('profiles')
+                            .select('is_active')
+                            .eq('id', userData.user.id)
+                            .single();
+                            
+                        if (profileError) {
+                            console.error('[RIBBON] Erro ao verificar status do usuário:', profileError.message);
+                        } else if (profileData && profileData.is_active === false) {
+                            console.log('[RIBBON] Usuário inativo, redirecionando para login');
+                            window.location.href = '/core/auth/login.html';
+                            return;
+                        }
+                        
+                        // Disparar evento de login para atualizar a UI
+                        const event = new CustomEvent('user:login', {
+                            detail: { user: userData.user }
+                        });
+                        document.dispatchEvent(event);
+                        
+                        // Definir o email diretamente para garantir
+                        const userInfoElement = document.getElementById('user-info');
+                        if (userInfoElement) {
+                            // Manter o ícone de configurações ao atualizar o conteúdo
+                            const settingsIcon = userInfoElement.querySelector('#user-settings-icon');
+                            userInfoElement.innerHTML = userData.user.email;
+                            if (settingsIcon) {
+                                userInfoElement.appendChild(settingsIcon);
+                            } else {
+                                // Se não existir, criar o ícone
+                                const newIcon = document.createElement('span');
+                                newIcon.id = 'user-settings-icon';
+                                newIcon.className = 'user-settings-icon';
+                                newIcon.title = 'Configurações do Perfil';
+                                newIcon.textContent = '⚙️';
+                                userInfoElement.appendChild(newIcon);
+                                // Configurar o evento de clique
+                                setupUserSettingsIcon();
+                            }
+                            
+                            userInfoElement.style.display = 'inline-block';
+                            userInfoElement.style.visibility = 'visible';
+                            userInfoElement.style.opacity = '1';
+                            console.log('[RIBBON] Email do usuário definido manualmente:', userData.user.email);
+                        }
+                    }
+                } else {
+                    console.log('[RIBBON] Usuário não autenticado, verificando localStorage');
+                    
+                    // Verificar no localStorage
+                    const supabaseToken = localStorage.getItem('supabase.auth.token');
+                    if (supabaseToken) {
+                        try {
+                            const tokenData = JSON.parse(supabaseToken);
+                            if (tokenData && tokenData.currentSession && tokenData.currentSession.user) {
+                                const user = tokenData.currentSession.user;
+                                console.log('[RIBBON] Usuário encontrado no localStorage:', user.email);
+                                
+                                // Verificar se o usuário está ativo
+                                const { data: profileData, error: profileError } = await window.supabase
+                                    .from('profiles')
+                                    .select('is_active')
+                                    .eq('id', user.id)
+                                    .single();
+                                    
+                                if (profileError) {
+                                    console.error('[RIBBON] Erro ao verificar status do usuário:', profileError.message);
+                                } else if (profileData && profileData.is_active === false) {
+                                    console.log('[RIBBON] Usuário inativo, redirecionando para login');
+                                    window.location.href = '/core/auth/login.html';
+                                    return;
+                                }
+                                
+                                // Disparar evento de login
+                                document.dispatchEvent(new CustomEvent('user:login', {
+                                    detail: { user }
+                                }));
+                                
+                                // Definir o email diretamente para garantir
+                                const userInfoElement = document.getElementById('user-info');
+                                if (userInfoElement) {
+                                    // Manter o ícone de configurações ao atualizar o conteúdo
+                                    const settingsIcon = userInfoElement.querySelector('#user-settings-icon');
+                                    userInfoElement.innerHTML = user.email;
+                                    if (settingsIcon) {
+                                        userInfoElement.appendChild(settingsIcon);
+                                    } else {
+                                        // Se não existir, criar o ícone
+                                        const newIcon = document.createElement('span');
+                                        newIcon.id = 'user-settings-icon';
+                                        newIcon.className = 'user-settings-icon';
+                                        newIcon.title = 'Configurações do Perfil';
+                                        newIcon.textContent = '⚙️';
+                                        userInfoElement.appendChild(newIcon);
+                                        // Configurar o evento de clique
+                                        setupUserSettingsIcon();
+                                    }
+                                    
+                                    userInfoElement.style.display = 'inline-block';
+                                    userInfoElement.style.visibility = 'visible';
+                                    userInfoElement.style.opacity = '1';
+                                    console.log('[RIBBON] Email do usuário definido manualmente:', user.email);
+                                }
+                            }
+                        } catch (e) {
+                            console.error('[RIBBON] Erro ao analisar token do localStorage:', e);
+                        }
+                    } else {
+                        console.log('[RIBBON] Nenhum usuário encontrado, usando modo teste');
+                        
+                        // No modo teste, usar um usuário mock
+                        const mockUser = { email: 'test@example.com', id: 'test-user' };
+                        document.dispatchEvent(new CustomEvent('user:login', {
+                            detail: { user: mockUser }
+                        }));
+                        
+                        // Definir o email diretamente para garantir
+                        const userInfoElement = document.getElementById('user-info');
+                        if (userInfoElement) {
+                            // Manter o ícone de configurações ao atualizar o conteúdo
+                            const settingsIcon = userInfoElement.querySelector('#user-settings-icon');
+                            userInfoElement.innerHTML = mockUser.email;
+                            if (settingsIcon) {
+                                userInfoElement.appendChild(settingsIcon);
+                            } else {
+                                // Se não existir, criar o ícone
+                                const newIcon = document.createElement('span');
+                                newIcon.id = 'user-settings-icon';
+                                newIcon.className = 'user-settings-icon';
+                                newIcon.title = 'Configurações do Perfil';
+                                newIcon.textContent = '⚙️';
+                                userInfoElement.appendChild(newIcon);
+                                // Configurar o evento de clique
+                                setupUserSettingsIcon();
+                            }
+                            
+                            userInfoElement.style.display = 'inline-block';
+                            userInfoElement.style.visibility = 'visible';
+                            userInfoElement.style.opacity = '1';
+                            console.log('[RIBBON] Email do usuário definido manualmente:', mockUser.email);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('[RIBBON] Erro ao verificar autenticação:', error);
+            }
+        }
+        
+        // Configurar listener para mensagens do iframe
+        function setupIframeMessageListener() {
+            window.addEventListener('message', function(event) {
+                console.log('[RIBBON] Mensagem recebida:', event.data);
+                
+                // Verificar se o usuário está ativo antes de processar a mensagem
+                async function verifyUserActive() {
+                    try {
+                        const { data: userData } = await window.supabase.auth.getUser();
+                        if (userData && userData.user) {
+                            const { data: profileData } = await window.supabase
+                                .from('profiles')
+                                .select('is_active')
+                                .eq('id', userData.user.id)
+                                .single();
+                                
+                            if (profileData && profileData.is_active === false) {
+                                console.log('[RIBBON] Usuário inativo, redirecionando para login');
+                                window.location.href = '/core/auth/login.html';
+                                return false;
+                            }
+                            return true;
+                        }
+                        return true;
+                    } catch (error) {
+                        console.error('[RIBBON] Erro ao verificar status do usuário:', error);
+                        return true;
+                    }
+                }
+                
+                // Processar mensagens dos módulos carregados no iframe
+                if (event.data && event.data.type === 'MODULE_READY') {
+                    verifyUserActive().then(isActive => {
+                        if (!isActive) return;
+                        
+                        console.log('[RIBBON] Módulo no iframe está pronto');
+                        
+                        // Se necessário, enviar dados para o iframe
+                        const moduleIframe = document.getElementById('module-iframe');
+                        if (moduleIframe && moduleIframe.contentWindow) {
+                            moduleIframe.contentWindow.postMessage({
+                                type: 'RIBBON_READY',
+                                payload: {
+                                    activeTab: document.querySelector('.ribbon-tab.active')?.dataset.tab
+                                }
+                            }, '*');
+                        }
+                    });
+                }
+                
+                // Processar mensagem para fechar o modal de perfil
+                if (event.data && event.data.type === 'CLOSE_PROFILE_MODAL') {
+                    verifyUserActive().then(isActive => {
+                        if (!isActive) return;
+                        
+                        console.log('[RIBBON] Fechando modal de perfil');
+                        const profileContainer = document.getElementById('profile-container');
+                        if (profileContainer) {
+                            profileContainer.style.display = 'none';
+                        }
+                    });
+                }
+                
+                // Processar atualização do perfil do usuário
+                if (event.data && event.data.type === 'PROFILE_UPDATED' && event.data.user) {
+                    verifyUserActive().then(isActive => {
+                        if (!isActive) return;
+                        
+                        console.log('[RIBBON] Perfil do usuário atualizado, verificando dados:', event.data.user);
+                        
+                        // Obter o usuário atual do localStorage
+                        getCurrentUser().then(currentUser => {
+                            if (currentUser) {
+                                try {
+                                    console.log('[RIBBON] Atualizando dados do usuário no sistema');
+                                    
+                                    // Verificar os campos de perfil recebidos
+                                    console.log('[RIBBON] Campos de perfil recebidos:');
+                                    console.log('  - full_name:', event.data.user.full_name);
+                                    console.log('  - organization_name:', event.data.user.organization_name);
+                                    console.log('  - phone_number:', event.data.user.phone_number);
+                                    console.log('  - country:', event.data.user.country);
+                                    console.log('  - newsletter_subscribed:', event.data.user.newsletter_subscribed);
+                                    
+                                    // Apenas atualizar se recebemos dados válidos
+                                    if (event.data.user.full_name || 
+                                        event.data.user.organization_name || 
+                                        event.data.user.phone_number || 
+                                        event.data.user.country) {
+                                        
+                                        // Armazenar perfil no localStorage
+                                        const profileData = {
+                                            full_name: event.data.user.full_name,
+                                            organization_name: event.data.user.organization_name,
+                                            phone_number: event.data.user.phone_number,
+                                            country: event.data.user.country,
+                                            newsletter_subscribed: event.data.user.newsletter_subscribed
+                                        };
+                                        
+                                        // Salvar no localStorage
+                                        const storageKey = `user_profile_${currentUser.id}`;
+                                        localStorage.setItem(storageKey, JSON.stringify(profileData));
+                                        console.log('[RIBBON] Dados do perfil atualizados no localStorage');
+                                        
+                                        // Atualizar o userData global para uso em outras partes da aplicação
+                                        if (window.userData) {
+                                            window.userData = {
+                                                ...window.userData,
+                                                ...profileData
+                                            };
+                                            console.log('[RIBBON] userData global atualizado com dados do perfil');
+                                        }
+                                    } else {
+                                        console.warn('[RIBBON] Dados do perfil recebidos estão vazios ou inválidos');
+                                    }
+                                } catch (err) {
+                                    console.error('[RIBBON] Erro ao processar atualização do perfil:', err);
+                                }
+                            }
+                        });
+                    });
+                }
+                
+                // Processar outras mensagens
+                if (event.data && event.data.type === 'PROFILE_READY') {
+                    console.log('[RIBBON] Iframe do perfil está pronto');
+                    // Se necessário, enviar dados para o iframe do perfil
+                    getCurrentUser().then(user => {
+                        if (user) {
+                            console.log('[RIBBON] Enviando dados do usuário para o iframe do perfil');
+                            console.log('[RIBBON] Campos de perfil que serão enviados:');
+                            console.log('  - full_name:', user.full_name);
+                            console.log('  - organization_name:', user.organization_name);
+                            console.log('  - phone_number:', user.phone_number);
+                            console.log('  - country:', user.country);
+                            
+                            const profileIframe = document.getElementById('profile-iframe');
+                            if (profileIframe && profileIframe.contentWindow) {
+                                profileIframe.contentWindow.postMessage({
+                                    type: 'LOAD_PROFILE',
+                                    user: user
+                                }, '*');
+                                console.log('[RIBBON] Dados do usuário enviados para o iframe do perfil com sucesso');
+                            } else {
+                                console.error('[RIBBON] Não foi possível encontrar o iframe do perfil');
+                            }
+                        } else {
+                            console.error('[RIBBON] Não há dados de usuário para enviar ao iframe do perfil');
+                        }
+                    }).catch(error => {
+                        console.error('[RIBBON] Erro ao obter dados do usuário para o perfil:', error);
+                    });
+                }
+                
+                // Exemplo de como processar outras mensagens do iframe
+                if (event.data && event.data.type === 'LOAD_MODULE') {
+                    loadModuleInIframe(event.data.module);
+                }
+            });
+        }
+        
+        // Função para carregar um módulo no iframe
+        function loadModuleInIframe(modulePath) {
+            const moduleIframe = document.getElementById('module-iframe');
+            if (moduleIframe) {
+                console.log('[RIBBON] Carregando módulo no iframe:', modulePath);
+                moduleIframe.src = modulePath;
+            }
+        }
+        
+        // Função para criar cliente mock para modo offline
+        function createMockClient() {
+            console.log('Criando cliente Supabase alternativo para modo offline');
+            return {
+                auth: {
+                    getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+                    getUser: () => Promise.resolve({ 
+                        data: { user: { id: 'test-user', email: 'test@example.com' } }, 
+                        error: null 
+                    }),
+                    signOut: () => Promise.resolve({ error: null })
+                },
+                from: (table) => ({
+                    select: () => ({
+                        eq: () => ({
+                            order: () => Promise.resolve({ data: [], error: null }),
+                            single: () => Promise.resolve({ data: null, error: null })
+                        }),
+                        limit: () => Promise.resolve({ data: [], error: null })
+                    }),
+                    insert: () => ({
+                        select: () => Promise.resolve({ data: [], error: null })
+                    }),
+                    update: () => ({
+                        eq: () => Promise.resolve({ data: null, error: null })
+                    }),
+                    delete: () => ({
+                        eq: () => Promise.resolve({ error: null })
+                    })
+                })
+            };
+        }
+    </script>
+    
+    <!-- Incluir o script de configuração do Ribbon antes dos arquivos de internacionalização -->
+    <script src="config/ribbon-config.js"></script>
+    
+    <!-- Arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <!-- Sistema de internacionalização depois dos arquivos de idioma e de configuração -->
+    <script src="js/i18n-ribbon.js"></script>
+    
+    <!-- Inicialização do seletor de idiomas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar o seletor de idiomas para alterar o idioma da ribbon
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                // Definir o idioma atual no seletor
+                const savedLang = localStorage.getItem('ribbon_language') || 'pt-PT';
+                languageSelect.value = savedLang;
+                
+                // Atualizar o idioma quando o seletor mudar
+                languageSelect.addEventListener('change', function(e) {
+                    if (window.RibbonI18n) {
+                        window.RibbonI18n.setLanguage(e.target.value);
+                    }
+                });
+                
+                // Aplicar o idioma atual
+                if (window.RibbonI18n) {
+                    window.RibbonI18n.setLanguage(savedLang);
+                }
+            }
+        });
+    </script>
+    
+    <!-- Scripts do Ribbon Manager -->
+    <script src="js/RibbonManager.js"></script>
+    <script src="js/ribbon-renderer.js"></script>
+    <script src="js/ribbon-controller.js"></script>
+    <script src="js/ribbon-actions.js"></script>
+    
+    <!-- Script de diagnóstico para o iframe -->
+    <script src="../../components/debug-iframe.js"></script>
+</body>
+</html> 

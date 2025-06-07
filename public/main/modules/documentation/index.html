@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMagic12 - Documentação</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="css/documentation.css">
+    
+    <!-- Carrega os arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <!-- Carrega o sistema de i18n específico para a documentação -->
+    <script src="js/i18n-documentation.js"></script>
+</head>
+<body class="documentation-page">
+    <header>
+        <a href="../../../../index.html" class="logo" title="Voltar ao topo">
+            <img src="../../../../public/main/images/logo.svg" alt="ZMagic12 Logo" width="30" height="30" style="margin-right: 10px; vertical-align: middle;">
+            ZMagic12
+        </a>
+        <div class="nav-links">
+            <a href="../../../../index.html#features" data-i18n="header.resources">Recursos</a>
+            <a href="../../../../index.html#pricing" data-i18n="header.pricing">Preços</a>
+            <a href="#" class="active" data-i18n="header.documentation">Documentação</a>
+            <a href="../marketplace/index.html" data-i18n="header.marketplace">Marketplace</a>
+        </div>
+        <div class="header-right">
+            <div class="language-selector">
+                <select id="language-selector" aria-label="Select language">
+                    <option value="pt-PT" data-i18n="language.pt_PT">Português (Portugal)</option>
+                    <option value="en-US" data-i18n="language.en_US">English (US)</option>
+                    <option value="fr-FR" data-i18n="language.fr_FR">Français (France)</option>
+                    <option value="es-ES" data-i18n="language.es_ES">Español (España)</option>
+                    <option value="de-DE" data-i18n="language.de_DE">Deutsch (Deutschland)</option>
+                    <option value="zh-CN" data-i18n="language.zh_CN">中文 (简体)</option>
+                </select>
+            </div>
+            <a href="../../../../core/auth/login.html" class="cta-button" data-i18n="header.login">Entrar</a>
+        </div>
+    </header>
+
+    <div class="documentation-container">
+        <aside class="documentation-sidebar">
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar na documentação..." data-i18n-attr="placeholder:documentation.search_placeholder">
+                <button class="search-button"><i class="search-icon">🔍</i></button>
+            </div>
+            
+            <nav class="documentation-nav">
+                <h3 data-i18n="documentation.categories.getting_started">Primeiros Passos</h3>
+                <ul>
+                    <li><a href="#introduction" class="active" data-i18n="documentation.sections.introduction">Introdução</a></li>
+                    <li><a href="#installation" data-i18n="documentation.sections.installation">Instalação</a></li>
+                    <li><a href="#quick-start" data-i18n="documentation.sections.quick_start">Guia Rápido</a></li>
+                </ul>
+                
+                <h3 data-i18n="documentation.categories.components">Componentes</h3>
+                <ul>
+                    <li><a href="#form-builder" data-i18n="documentation.sections.form_builder">Form Builder</a></li>
+                    <li><a href="#macro-code" data-i18n="documentation.sections.macro_code">Macro Code</a></li>
+                    <li><a href="#low-code" data-i18n="documentation.sections.low_code">Low Code</a></li>
+                </ul>
+                
+                <h3 data-i18n="documentation.categories.tutorials">Tutoriais</h3>
+                <ul>
+                    <li><a href="#tutorial-form" data-i18n="documentation.sections.tutorial_form">Criar um Formulário</a></li>
+                    <li><a href="#tutorial-macro" data-i18n="documentation.sections.tutorial_macro">Desenvolver uma Macro</a></li>
+                </ul>
+                
+                <h3 data-i18n="documentation.categories.resources">Recursos</h3>
+                <ul>
+                    <li><a href="#faq" data-i18n="documentation.sections.faq">Perguntas Frequentes</a></li>
+                    <li><a href="#downloads" data-i18n="documentation.sections.downloads">Downloads</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="documentation-content">
+            <section id="introduction" class="doc-section active">
+                <h1 data-i18n="documentation.introduction.title">Introdução ao ZMagic12</h1>
+                <p data-i18n="documentation.introduction.description">Bem-vindo à documentação oficial do ZMagic12, a plataforma completa para criação de formulários e macros poderosas. Esta documentação irá ajudá-lo a entender os conceitos básicos e a utilizar todas as funcionalidades disponíveis.</p>
+                
+                <div class="feature-image">
+                    <img src="../../../../public/main/images/dashboard-preview.png" alt="Visão geral do dashboard" data-i18n-attr="alt:documentation.introduction.dashboard_image_alt">
+                </div>
+                
+                <h2 data-i18n="documentation.introduction.what_is_title">O que é o ZMagic12?</h2>
+                <p data-i18n="documentation.introduction.what_is_description">ZMagic12 é uma plataforma modular para criação e gestão de aplicações de baixo código, formulários e macros. A aplicação está estruturada em componentes independentes que se comunicam através de eventos, permitindo uma arquitectura flexível e escalável.</p>
+                
+                <h2 data-i18n="documentation.introduction.key_features_title">Recursos Principais</h2>
+                <ul>
+                    <li data-i18n="documentation.introduction.key_features.form_builder">Form Builder: crie formulários interactivos com uma interface amigável</li>
+                    <li data-i18n="documentation.introduction.key_features.macro_code">Macro Code: desenvolva macros poderosas para automatizar tarefas</li>
+                    <li data-i18n="documentation.introduction.key_features.low_code">Low Code: crie aplicações completas sem precisar de escrever código extenso</li>
+                    <li data-i18n="documentation.introduction.key_features.marketplace">Marketplace: compre e venda os seus projectos</li>
+                </ul>
+                
+                <div class="video-container">
+                    <h2 data-i18n="documentation.introduction.video_title">Vídeo de Introdução</h2>
+                    <p data-i18n="documentation.introduction.video_description">Veja o vídeo abaixo para uma visão geral das principais funcionalidades do ZMagic12:</p>
+                    <div class="video-placeholder" data-video-id="zmagic12-intro">
+                        <div class="play-button">▶</div>
+                        <span data-i18n="documentation.introduction.video_placeholder">Vídeo de introdução ao ZMagic12</span>
+                    </div>
+                </div>
+                
+                <div class="doc-navigation">
+                    <a href="#installation" class="next-link" data-i18n="documentation.navigation.next">Próximo: Instalação</a>
+                </div>
+            </section>
+            
+            <!-- Seção Instalação (oculta inicialmente) -->
+            <section id="installation" class="doc-section">
+                <h1 data-i18n="documentation.installation.title">Instalação</h1>
+                <p data-i18n="documentation.installation.description">Aprenda como instalar e configurar o ZMagic12 em seu ambiente.</p>
+                
+                <!-- Conteúdo a ser adicionado -->
+                
+                <div class="doc-navigation">
+                    <a href="#introduction" class="prev-link" data-i18n="documentation.navigation.previous">Anterior: Introdução</a>
+                    <a href="#quick-start" class="next-link" data-i18n="documentation.navigation.next">Próximo: Guia Rápido</a>
+                </div>
+            </section>
+            
+            <!-- Outras seções serão adicionadas conforme necessário -->
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ZMagic12</h3>
+                <p data-i18n="footer.description">A plataforma completa para desenvolvimento de formulários e macros.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.useful_links">Links Úteis</h3>
+                <ul>
+                    <li><a href="../../../../core/auth/login.html" data-i18n="footer.login">Login</a></li>
+                    <li><a href="../../../../core/auth/register.html" data-i18n="footer.register">Registar</a></li>
+                    <li><a href="../../../../index.html#features" data-i18n="footer.resources">Recursos</a></li>
+                    <li><a href="../../../../index.html#pricing" data-i18n="footer.pricing">Preços</a></li>
+                    <li><a href="../../../../index.html#about" data-i18n="footer.about">Sobre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contacto</h3>
+                <ul>
+                    <li data-i18n="footer.email">E-mail: geral@zmagic12.com</li>
+                    <li data-i18n="footer.phone">Telefone: (00351) 91</li>
+                    <li data-i18n="footer.address">Endereço: Leiria, Portugal</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="footer.copyright">&copy; 2024 ZMagic12. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/main.js"></script>
+    <script src="js/documentation.js"></script>
+</body>
+</html> 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="360" viewBox="0 0 300 360">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0" stop-color="#1e3c72"/>
+      <stop offset="1" stop-color="#2a5298"/>
+    </linearGradient>
+  </defs>
+  <rect width="300" height="360" fill="url(#bg-gradient)"/>
+  <path d="M0 40 H300 M0 80 H300 M0 120 H300 M0 160 H300 M0 200 H300 M0 240 H300 M0 280 H300 M0 320 H300" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.1"/>
+  <path d="M40 0 V360 M80 0 V360 M120 0 V360 M160 0 V360 M200 0 V360 M240 0 V360 M280 0 V360" stroke="#ffffff" stroke-width="0.5" stroke-opacity="0.1"/>
+  <g transform="matrix(1, 0, 0, 1, 110, 17.9107)">
+    <rect width="80" height="80" rx="16" fill="#1e3c72"/>
+    <text x="20" y="56" fill="#ffffff" font-family="Arial" font-weight="bold" font-size="48" style="white-space: pre;">Z</text>
+    <text x="38" y="56" fill="#4CAF50" font-family="Arial" font-weight="bold" font-size="24" style="white-space: pre;">12</text>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 88.7811, 110.903)">
+    <rect x="0" y="0" width="180" height="30" rx="4" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-width="1"/>
+    <text x="10" y="20" fill="#ffffff" font-family="Arial" font-size="14" style="white-space: pre;">Nome do Formulário</text>
+    <rect x="0" y="40" width="180" height="30" rx="4" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-width="1"/>
+    <text x="10" y="60" fill="#ffffff" font-family="Arial" font-size="14" style="white-space: pre;">Campo de Entrada</text>
+    <rect x="0" y="80" width="180" height="30" rx="4" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-width="1"/>
+    <text x="10" y="100" fill="#ffffff" font-family="Arial" font-size="14" style="white-space: pre;">Lista de Seleção</text>
+    <rect x="130" y="120" width="50" height="25" rx="4" fill="#2ecc71" stroke="#ffffff" stroke-width="1"/>
+    <text x="138" y="137" fill="#ffffff" font-family="Arial" font-size="12" font-weight="bold" style="white-space: pre;">Enviar</text>
+  </g>
+  <g transform="matrix(1, 0, 0, 1, 35.986, 230.805)">
+    <rect x="0" y="0" width="160" height="40" rx="6" fill="#f39c12" stroke="#ffffff" stroke-width="1.5"/>
+    <text x="20" y="25" fill="#ffffff" font-family="Arial" font-size="14" font-weight="bold" style="white-space: pre;">Macro: Cálculo</text>
+    <circle cx="0" cy="20" r="6" fill="#e74c3c"/>
+    <circle cx="160" cy="20" r="6" fill="#3498db"/>
+    <path d="M70 40 L70 60 L30 60 L30 80" stroke="#ffffff" stroke-width="2" stroke-opacity="0.7" style="fill-rule: nonzero; paint-order: fill;"/>
+    <path d="M70 40 L70 60 L130 60 L130 80" stroke="#ffffff" stroke-width="2" stroke-opacity="0.7" style=""/>
+    <rect x="0" y="80" width="60" height="30" rx="4" fill="#3498db" stroke="#ffffff" stroke-width="1"/>
+    <text x="12" y="100" fill="#ffffff" font-family="Arial" font-size="12" style="white-space: pre;">Input</text>
+    <rect x="100" y="80" width="60" height="30" rx="4" fill="#e74c3c" stroke="#ffffff" stroke-width="1"/>
+    <text x="110" y="100" fill="#ffffff" font-family="Arial" font-size="12" style="white-space: pre;">Output</text>
+  </g>
+</svg>

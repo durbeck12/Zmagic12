@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMagic12 - Plataforma de Desenvolvimento de Macros</title>
+    <link rel="stylesheet" href="public/main/css/main.css">
+    
+    <!-- Carrega apenas o sistema de i18n, que carregará dinamicamente os arquivos de idioma -->
+    <script src="public/main/js/i18n.js"></script>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo" title="Voltar ao topo">
+            <img src="public/main/images/logo.svg" alt="ZMagic12 Logo" width="30" height="30" style="margin-right: 10px; vertical-align: middle;">
+            ZMagic12
+        </a>
+        <div class="nav-links">
+            <a href="#features" data-i18n="header.resources">Recursos</a>
+            <a href="#pricing" data-i18n="header.pricing">Preços</a>
+            <a href="public/main/modules/documentation/index.html" data-i18n="header.documentation">Documentação</a>
+            <a href="public/main/modules/marketplace/index.html" data-i18n="header.marketplace">Marketplace</a>
+        </div>
+        <div class="header-right">
+            <div class="language-selector">
+                <select id="language-selector" aria-label="Select language">
+                    <option value="pt-PT" data-i18n="language.pt_PT">Português (Portugal)</option>
+                    <option value="en-US" data-i18n="language.en_US">English (US)</option>
+                    <option value="fr-FR" data-i18n="language.fr_FR">Français (France)</option>
+                    <option value="es-ES" data-i18n="language.es_ES">Español (España)</option>
+                    <option value="de-DE" data-i18n="language.de_DE">Deutsch (Deutschland)</option>
+                    <option value="zh-CN" data-i18n="language.zh_CN">中文 (简体)</option>
+                </select>
+            </div>
+            <a href="core/auth/login.html" class="cta-button" data-i18n="header.login">Entrar</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-i18n="hero.title">ZMagic12</h1>
+            <p data-i18n="hero.subtitle">A plataforma completa para criação de formulários e macros poderosas</p>
+            <a href="core/auth/login.html" class="cta-button" data-i18n="hero.cta_button">Comece Agora</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 data-i18n="features.title">Recursos Principais</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 data-i18n="features.form_builder.title">Form Builder</h3>
+                <p data-i18n="features.form_builder.description">Crie formulários interactivos com uma interface amigável. Arraste e solte elementos para construir formulários complexos em minutos.</p>
+            </div>
+            <div class="feature-card">
+                <h3 data-i18n="features.macro_code.title">Macro Code</h3>
+                <p data-i18n="features.macro_code.description">Desenvolva macros poderosas para automatizar tarefas. Utilize a nossa biblioteca extensa de comandos e funções.</p>
+            </div>
+            <div class="feature-card">
+                <h3 data-i18n="features.low_code.title">Low Code</h3>
+                <p data-i18n="features.low_code.description">Crie aplicações completas sem precisar de escrever código extenso. A nossa plataforma visual facilita o desenvolvimento.</p>
+            </div>
+            <div class="feature-card">
+                <h3 data-i18n="features.marketplace.title">Marketplace</h3>
+                <p data-i18n="features.marketplace.description">Compre e venda os seus projectos no marketplace. Monetize as suas criações ou encontre soluções prontas para as suas necessidades.</p>
+            </div>
+            <div class="feature-card">
+                <h3 data-i18n="features.projects.title">Projectos Geridos</h3>
+                <p data-i18n="features.projects.description">Organize todos os seus projectos num único lugar. Acompanhe o progresso e mantenha tudo organizado.</p>
+            </div>
+            <div class="feature-card">
+                <h3 data-i18n="features.community.title">Suporte da Comunidade</h3>
+                <p data-i18n="features.community.description">Faça parte de uma comunidade activa de programadores. Partilhe conhecimentos e receba ajuda quando precisar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nova seção de preços -->
+    <section class="pricing" id="pricing">
+        <h2 data-i18n="pricing.title">Planos e Preços</h2>
+        <p class="pricing-description" data-i18n="pricing.description">Escolha o plano que melhor se adapta às suas necessidades. Oferecemos opções flexíveis para particulares e equipas de todos os tamanhos.</p>
+        
+        <div class="pricing-plans">
+            <div class="plan-card">
+                <h3 class="plan-title" data-i18n="pricing.monthly.title">Plano Mensal</h3>
+                <div class="plan-price">10€</div>
+                <span class="plan-period" data-i18n="pricing.monthly.period">por mês</span>
+                
+                <ul class="plan-features">
+                    <li data-i18n="pricing.features.all_modules">Acesso a todos os módulos</li>
+                    <li data-i18n="pricing.features.unlimited_projects">Projectos ilimitados</li>
+                    <li data-i18n="pricing.features.community">Suporte da comunidade</li>
+                    <li data-i18n="pricing.features.updates">Actualizações regulares</li>
+                </ul>
+                
+                <a href="core/auth/register.html" class="plan-cta" data-i18n="pricing.monthly.cta">Subscrever Plano Mensal</a>
+            </div>
+            
+            <div class="plan-card featured" data-featured-text="MAIS POPULAR">
+                <h3 class="plan-title" data-i18n="pricing.annual.title">Plano Anual</h3>
+                <div class="plan-price">100€</div>
+                <span class="plan-period" data-i18n="pricing.annual.period">por ano</span>
+                
+                <ul class="plan-features">
+                    <li data-i18n="pricing.features.all_modules">Acesso a todos os módulos</li>
+                    <li data-i18n="pricing.features.unlimited_projects">Projectos ilimitados</li>
+                    <li data-i18n="pricing.features.community">Suporte da comunidade</li>
+                    <li data-i18n="pricing.features.updates">Actualizações regulares</li>
+                    <li data-i18n="pricing.features.priority_support">Suporte prioritário</li>
+                    <li data-i18n="pricing.features.save">Poupe 20€ por ano</li>
+                </ul>
+                
+                <a href="core/auth/register.html" class="plan-cta" data-i18n="pricing.annual.cta">Subscrever Plano Anual</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ZMagic12</h3>
+                <p data-i18n="footer.description">A plataforma completa para desenvolvimento de formulários e macros.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.useful_links">Ligações Úteis</h3>
+                <ul>
+                    <li><a href="core/auth/login.html" data-i18n="footer.login">Entrar</a></li>
+                    <li><a href="core/auth/register.html" data-i18n="footer.register">Registar</a></li>
+                    <li><a href="#features" data-i18n="footer.resources">Recursos</a></li>
+                    <li><a href="#pricing" data-i18n="footer.pricing">Preços</a></li>
+                    <li><a href="#about" data-i18n="footer.about">Sobre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contacto</h3>
+                <ul>
+                    <li data-i18n="footer.email">E-mail: geral@zmagic12.com</li>
+                    <li data-i18n="footer.phone">Telefone: (00351) 91</li>
+                    <li data-i18n="footer.address">Morada: Leiria, Portugal</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="footer.copyright">&copy; 2024 ZMagic12. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="public/main/js/main.js"></script>
+</body>
+</html> 

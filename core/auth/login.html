@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ZMagic12</title>
+    <link rel="stylesheet" href="css/auth.css">
+    
+    <!-- Importar diretamente a biblioteca Supabase do CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Pré-carregar arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <style>
+        .language-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+        .language-selector select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Seletor de idiomas -->
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="pt-PT">Português</option>
+            <option value="en-US">English</option>
+            <option value="fr-FR">Français</option>
+            <option value="es-ES">Español</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="zh-CN">中文</option>
+        </select>
+    </div>
+    
+    <a href="../../index.html" class="back-link" data-i18n="login.back_link">Voltar para a página inicial</a>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 data-i18n="app_name">ZMagic12</h1>
+            <p data-i18n="login.title">Faça login para acessar</p>
+        </div>
+        
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message" data-i18n="login.success_message">
+            Login realizado com sucesso! Redirecionando...
+        </div>
+        
+        <!-- Container para usuário já logado - inicialmente escondido -->
+        <div id="logged-user-container" class="logged-user-container" style="display: none;">
+            <div class="logged-user-info">
+                <p><span data-i18n="login.already_logged_in">Usuário já logado:</span> <span id="logged-user-email"></span></p>
+            </div>
+            <div class="logged-user-actions">
+                <button id="continue-session-btn" class="auth-btn primary-btn" data-i18n="login.continue_button">Continuar com esta conta</button>
+                <button id="logout-btn" class="auth-btn secondary-btn" data-i18n="login.logout_button">Terminar sessão</button>
+            </div>
+        </div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email" data-i18n="login.email_label">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password" data-i18n="login.password_label">Senha</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="auth-btn" data-i18n="login.submit_button">Entrar</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p><span data-i18n="login.register_link">Não tem uma conta?</span> <a href="../auth/register.html" data-i18n="register.submit_button">Registre-se</a></p>
+            <p><a href="../auth/password-recovery.html" data-i18n="login.forgot_password_link">Esqueceu sua senha?</a></p>
+        </div>
+    </div>
+
+    <!-- Carregar arquivos de internacionalização -->
+    <script src="js/i18n-auth.js"></script>
+    
+    <!-- Carregar arquivos de autenticação -->
+    <script src="js/auth.js"></script>
+    
+    <!-- Script para inicializar o seletor de idiomas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar o seletor de idiomas
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                // Definir o valor inicial com base no idioma atual
+                const currentLanguage = localStorage.getItem('locale') || 'pt-PT';
+                languageSelect.value = currentLanguage;
+                
+                // Adicionar event listener para alteração de idioma
+                languageSelect.addEventListener('change', function() {
+                    const selectedLanguage = this.value;
+                    if (window.Auth_I18n) {
+                        window.Auth_I18n.setLanguage(selectedLanguage);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="profile.page_title">Perfil de Usuário - ZMagic12</title>
+    <link rel="stylesheet" href="css/profile.css">
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Internacionalização - prioridade alta -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    <script src="js/i18n-auth.js" id="i18n-script"></script>
+    <!-- Script do perfil -->
+    <script src="js/profile.js"></script>
+</head>
+<body>
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-content">
+            <div class="profile-header">
+                <h2 data-i18n="profile.title">Perfil do Usuário</h2>
+                <div class="language-selector">
+                    <select id="languageSelector">
+                        <option value="pt-PT">Português</option>
+                        <option value="en-US">English</option>
+                        <option value="fr-FR">Français</option>
+                        <option value="es-ES">Español</option>
+                        <option value="de-DE">Deutsch</option>
+                        <option value="zh-CN">中文</option>
+                    </select>
+                </div>
+                <button class="close-profile" id="closeProfile">&times;</button>
+            </div>
+            <div class="profile-body">
+                <div class="profile-tabs">
+                    <button class="profile-tab active" data-tab="profile-info" data-i18n="profile.tabs.personal_info">Informações Pessoais</button>
+                    <button class="profile-tab" data-tab="account-settings" data-i18n="profile.tabs.account_settings">Configurações da Conta</button>
+                    <button class="profile-tab" data-tab="activity" data-i18n="profile.tabs.activity">Atividade</button>
+                    <button class="profile-tab" data-tab="subscription" data-i18n="profile.tabs.subscription">Assinatura</button>
+                </div>
+                
+                <div class="tabs-container">
+                    <!-- Tab de Informações Pessoais -->
+                    <div id="profile-info" class="tab-content active">
+                        <div class="profile-info">
+                            <img src="/public/components/shared/images/default-avatar.svg" alt="Avatar do Usuário" class="profile-avatar" id="userAvatar" data-i18n-attr="alt:profile.user_avatar">
+                            <div class="profile-text">
+                                <h3 id="userName" data-i18n="profile.loading">Carregando...</h3>
+                                <p id="userEmail">Carregando...</p>
+                                <p id="userType" data-i18n="profile.user_type_prefix">Tipo de usuário: Carregando...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-form">
+                            <div class="form-group">
+                                <label for="fullName" data-i18n="profile.fields.full_name">Nome Completo</label>
+                                <input type="text" id="fullName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="organization" data-i18n="profile.fields.organization">Organização</label>
+                                <input type="text" id="organization" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" data-i18n="profile.fields.phone">Número de Telefone</label>
+                                <input type="text" id="phone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="country" data-i18n="profile.fields.country">País</label>
+                                <input type="text" id="country" class="form-control">
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="newsletterSubscribed" class="form-checkbox">
+                                <label for="newsletterSubscribed" data-i18n="profile.fields.newsletter">Receber notificações e novidades por email</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab de Configurações da Conta -->
+                    <div id="account-settings" class="tab-content">
+                        <h3 data-i18n="profile.account_settings.title">Configurações da Conta</h3>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.account_settings.email">Email</label>
+                            <div class="field-value" id="accountEmail">carregando@exemplo.com</div>
+                        </div>
+                        
+                        <div class="form-group" hidden>
+                            <label data-i18n="profile.account_settings.role">Função</label>
+                            <div class="field-value" id="accountRole" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.account_settings.created_at">Conta criada em</label>
+                            <div class="field-value" id="accountCreated" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.account_settings.last_signin">Último acesso</label>
+                            <div class="field-value" id="lastSignIn" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="form-group" hidden>
+                            <label data-i18n="profile.account_settings.terms">Termos e Condições</label>
+                            <div class="field-value" id="termsAccepted" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <h4 data-i18n="profile.account_settings.security">Segurança</h4>
+                        <div class="form-group">
+                            <button class="btn btn-secondary" id="changePasswordBtn" data-i18n="profile.account_settings.change_password">Alterar Senha</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab de Atividade -->
+                    <div id="activity" class="tab-content">
+                        <h3 data-i18n="profile.activity.title">Atividade da Conta</h3>
+                        
+                        <div class="user-stats">
+                            <div class="stat-box">
+                                <div class="stat-value" id="projectCount">0</div>
+                                <div class="stat-label" data-i18n="profile.activity.projects">Projetos</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="templateCount">0</div>
+                                <div class="stat-label" data-i18n="profile.activity.templates">Templates</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value" id="formCount">0</div>
+                                <div class="stat-label" data-i18n="profile.activity.archived">Arquivados</div>
+                            </div>
+                        </div>
+                        
+                        <h4 data-i18n="profile.activity.last_accesses">Últimos Acessos</h4>
+                        <div id="activityLog" class="activity-log">
+                            <p data-i18n="profile.loading_activities">Carregando atividades...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab de Assinatura -->
+                    <div id="subscription" class="tab-content">
+                        <h3 data-i18n="profile.subscription.title">Informações de Assinatura</h3>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.subscription.current_plan">Plano Atual</label>
+                            <div class="field-value" id="subscriptionPlan" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.subscription.start_date">Data de Início</label>
+                            <div class="field-value" id="subscriptionStart" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label data-i18n="profile.subscription.validity">Validade</label>
+                            <div class="field-value" id="subscriptionValidity" data-i18n="profile.loading">Carregando...</div>
+                        </div>
+                        
+                        <div class="subscription-actions">
+                            <button class="btn btn-secondary" id="upgradeSubscription" data-i18n="profile.subscription.upgrade_plan">Atualizar Plano</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer fixo com botões -->
+            <div class="profile-footer">
+                <button class="btn btn-secondary" id="cancelProfile" data-i18n="profile.buttons.cancel">Cancelar</button>
+                <button class="btn btn-primary" id="saveProfile" data-i18n="profile.buttons.save">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

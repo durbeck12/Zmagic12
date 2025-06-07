@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="overflow: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ZMagic</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="../../shared/css/common.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <style>
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .dashboard-container {
+            height: 100%;
+            overflow: auto;
+        }
+        
+        /* Estilos para quando estiver em iframe */
+        .in-iframe .dashboard-header,
+        .in-iframe .tabs {
+            display: none !important;
+        }
+        
+        .in-iframe .dashboard-content {
+            padding-top: 0;
+        }
+    </style>
+    
+    <script>
+        // Detectar se a página está em um iframe
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.self !== window.top) {
+                // Estamos em um iframe
+                document.body.classList.add('in-iframe');
+                document.querySelector('.dashboard-container').classList.add('in-iframe');
+            }
+        });
+    </script>
+</head>
+<body style="overflow: hidden;">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p data-i18n="dashboard.loading">Carregando...</p>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="user-info">
+                    <img id="user-avatar" src="../../shared/images/default-avatar.svg" alt="Avatar do usuário">
+                    <span id="user-name">Carregando...</span>
+                </div>
+                <nav class="header-nav">
+                    <button id="newProjectBtn" class="btn btn-primary" data-i18n="dashboard.header.new_project">
+                        <i class="fas fa-plus"></i> Novo Projeto
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="projects" data-i18n="dashboard.tabs.projects">
+                    <i class="fas fa-folder"></i> Meus Projetos
+                </button>
+                <button class="tab-button" data-tab="archived" data-i18n="dashboard.tabs.archived">
+                    <i class="fas fa-archive"></i> Arquivados
+                </button>
+                <button class="tab-button" data-tab="templates" data-i18n="dashboard.tabs.templates">
+                    <i class="fas fa-copy"></i> Templates
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content active" id="tab-projects">
+                <div id="projects-container" class="projects-grid">
+                    <!-- Projects will be loaded here -->
+                </div>
+            </div>
+            <div class="tab-content" id="tab-archived">
+                <div id="archived-container" class="projects-grid">
+                    <!-- Archived projects will be loaded here -->
+                </div>
+            </div>
+            <div class="tab-content" id="tab-templates">
+                <div id="templates-container" class="projects-grid">
+                    <!-- Template projects will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Project Modal -->
+    <div id="new-project-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-i18n="dashboard.new_project_modal.title">Novo Projeto</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="new-project-form">
+                    <div class="form-group">
+                        <label for="project-name" data-i18n="dashboard.new_project_modal.name_label">Nome do Projeto</label>
+                        <input type="text" id="project-name" name="project-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-description" data-i18n="dashboard.new_project_modal.description_label">Descrição</label>
+                        <textarea id="project-description" name="project-description" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="project-template" name="project-template">
+                            <span data-i18n="dashboard.new_project_modal.create_as_template">Criar como template</span>
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-modal" data-i18n="dashboard.new_project_modal.cancel_button">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" data-i18n="dashboard.new_project_modal.create_button">Criar Projeto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/i18n-dashboard.js"></script>
+    <script type="module">
+        import DashboardModule from './js/core/DashboardModule.js';
+        import executeCommand from './js/utils/commands.js';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar o dashboard
+            const dashboard = new DashboardModule();
+            
+            // Armazenar a instância para acesso global
+            window.dashboardInstance = dashboard;
+            
+            // Inicializar o dashboard
+            dashboard.init();
+            
+            // Garantir que as traduções sejam aplicadas após o carregamento
+            if (window.dashboardI18n) {
+                window.dashboardI18n.updateUI();
+            }
+        });
+    </script>
+</body>
+</html> 

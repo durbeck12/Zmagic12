@@ -1,0 +1,190 @@
+/* modal.css - Sistema uniforme de caixas de diálogo modais para ZMagic12 */
+
+/* Add this at the beginning of the file to ensure all text in modals is black */
+.modal,
+.modal-content,
+.modal-header,
+.modal-body,
+.modal-footer,
+.modal h1,
+.modal h2,
+.modal h3,
+.modal h4,
+.modal h5,
+.modal h6,
+.modal p,
+.modal span,
+.modal div,
+.modal label,
+.modal input,
+.modal select,
+.modal textarea,
+.modal button {
+    color: #000000;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: modal-fade-in 0.2s ease;
+}
+
+.modal-container {
+    background-color: #fff;
+    border-radius: var(--border-radius-medium, 5px);
+    box-shadow: var(--shadow-dark, 0 4px 15px rgba(0, 0, 0, 0.2));
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modal-slide-in 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: var(--spacing-medium, 16px);
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f5f5f5;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: var(--font-size-medium, 16px);
+    font-weight: 600;
+    color: var(--color-text-light, #2c3e50);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #999;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: var(--spacing-medium, 16px);
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: var(--spacing-medium, 16px);
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-small, 8px);
+    background-color: #f5f5f5;
+}
+
+.modal-btn {
+    padding: var(--spacing-small, 8px) var(--spacing-medium, 16px);
+    border-radius: var(--border-radius-small, 3px);
+    font-size: var(--font-size-normal, 14px);
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.modal-btn-primary {
+    background-color: var(--color-primary, #3498db);
+    color: white;
+}
+
+.modal-btn-primary:hover {
+    background-color: var(--color-primary-dark, #2980b9);
+}
+
+.modal-btn-secondary {
+    background-color: #f2f2f2;
+    color: #333;
+    border-color: #ddd;
+}
+
+.modal-btn-secondary:hover {
+    background-color: #e0e0e0;
+}
+
+.modal-btn-danger {
+    background-color: var(--color-error, #e74c3c);
+    color: white;
+}
+
+.modal-btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.modal-input {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-small, 8px);
+    margin-bottom: var(--spacing-medium, 16px);
+    border-radius: var(--border-radius-small, 3px);
+    border: 1px solid #ddd;
+    font-size: var(--font-size-normal, 14px);
+}
+
+.modal-input:focus {
+    border-color: var(--color-primary, #3498db);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.modal-label {
+    display: block;
+    margin-bottom: var(--spacing-xsmall, 4px);
+    font-weight: 500;
+    color: var(--color-text-light, #2c3e50);
+}
+
+.modal-form-group {
+    margin-bottom: var(--spacing-medium, 16px);
+}
+
+/* Animações */
+@keyframes modal-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modal-slide-in {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .modal-container {
+        width: 95%;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+    
+    .modal-btn {
+        width: 100%;
+    }
+} 

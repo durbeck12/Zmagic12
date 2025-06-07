@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMagic12 - Marketplace</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="css/marketplace.css">
+    
+    <!-- Carrega os arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <!-- Carrega o sistema de i18n específico para o marketplace -->
+    <script src="js/i18n-marketplace.js"></script>
+</head>
+<body class="marketplace-page">
+    <header>
+        <a href="../../../../index.html" class="logo" title="Voltar ao topo">
+            <img src="../../../../public/main/images/logo.svg" alt="ZMagic12 Logo" width="30" height="30" style="margin-right: 10px; vertical-align: middle;">
+            ZMagic12
+        </a>
+        <div class="nav-links">
+            <a href="../../../../index.html#features" data-i18n="header.resources">Recursos</a>
+            <a href="../../../../index.html#pricing" data-i18n="header.pricing">Preços</a>
+            <a href="../documentation/index.html" data-i18n="header.documentation">Documentação</a>
+            <a href="#" class="active" data-i18n="header.marketplace">Marketplace</a>
+        </div>
+        <div class="header-right">
+            <div class="language-selector">
+                <select id="language-selector" aria-label="Select language">
+                    <option value="pt-PT" data-i18n="language.pt_PT">Português (Portugal)</option>
+                    <option value="en-US" data-i18n="language.en_US">English (US)</option>
+                    <option value="fr-FR" data-i18n="language.fr_FR">Français (France)</option>
+                    <option value="es-ES" data-i18n="language.es_ES">Español (España)</option>
+                    <option value="de-DE" data-i18n="language.de_DE">Deutsch (Deutschland)</option>
+                    <option value="zh-CN" data-i18n="language.zh_CN">中文 (简体)</option>
+                </select>
+            </div>
+            <a href="../../../../core/auth/login.html" class="cta-button" data-i18n="header.login">Entrar</a>
+        </div>
+    </header>
+
+    <main class="marketplace-container">
+        <!-- Marketplace content will be added here -->
+        <div class="marketplace-coming-soon">
+            <h1 data-i18n="marketplace.coming_soon.title">Marketplace</h1>
+            <p data-i18n="marketplace.coming_soon.message">O Marketplace está em desenvolvimento e estará disponível em breve.</p>
+            
+            <div class="marketplace-search">
+                <input type="text" data-i18n-attr="placeholder:marketplace.search.placeholder" placeholder="Pesquisar no marketplace...">
+                <button data-i18n="marketplace.search.button">Pesquisar</button>
+            </div>
+            
+            <div class="marketplace-intro">
+                <h2 data-i18n="marketplace.intro.title">Bem-vindo ao Marketplace ZMagic12</h2>
+                <p data-i18n="marketplace.intro.description">Descubra, compre e venda formulários, macros e soluções completas para acelerar o seu trabalho.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ZMagic12</h3>
+                <p data-i18n="footer.description">A plataforma completa para desenvolvimento de formulários e macros.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.useful_links">Links Úteis</h3>
+                <ul>
+                    <li><a href="../../../../core/auth/login.html" data-i18n="footer.login">Login</a></li>
+                    <li><a href="../../../../core/auth/register.html" data-i18n="footer.register">Registar</a></li>
+                    <li><a href="../../../../index.html#features" data-i18n="footer.resources">Recursos</a></li>
+                    <li><a href="../../../../index.html#pricing" data-i18n="footer.pricing">Preços</a></li>
+                    <li><a href="../../../../index.html#about" data-i18n="footer.about">Sobre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.contact">Contacto</h3>
+                <ul>
+                    <li data-i18n="footer.email">E-mail: geral@zmagic12.com</li>
+                    <li data-i18n="footer.phone">Telefone: (00351) 91</li>
+                    <li data-i18n="footer.address">Endereço: Leiria, Portugal</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-i18n="footer.copyright">&copy; 2024 ZMagic12. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/main.js"></script>
+    <script src="js/marketplace.js"></script>
+</body>
+</html> 

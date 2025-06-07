@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="admin.page_title">Administração de Usuários - ZMagic12</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Internacionalização -->
+    <script src="../auth/js/langs/pt-PT.js"></script>
+    <script src="../auth/js/langs/en-US.js"></script>
+    <script src="../auth/js/langs/fr-FR.js"></script>
+    <script src="../auth/js/langs/es-ES.js"></script>
+    <script src="../auth/js/langs/de-DE.js"></script>
+    <script src="../auth/js/langs/zh-CN.js"></script>
+    <script src="../auth/js/i18n-auth.js" id="i18n-script"></script>
+    <!-- Script do admin -->
+    <script src="js/admin.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <h1 data-i18n="admin.title">Painel de Administração</h1>
+                <div class="user-controls">
+                    <div class="language-selector">
+                        <select id="languageSelector">
+                            <option value="pt-PT">Português</option>
+                            <option value="en-US">English</option>
+                            <option value="fr-FR">Français</option>
+                            <option value="es-ES">Español</option>
+                            <option value="de-DE">Deutsch</option>
+                            <option value="zh-CN">中文</option>
+                        </select>
+                    </div>
+                    <div class="admin-info">
+                        <span id="adminName">Admin</span>
+                        <button id="logoutBtn" data-i18n="admin.logout">Sair</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="admin-main">
+            <div class="admin-sidebar">
+                <nav class="admin-nav">
+                    <ul>
+                        <li class="active"><a href="#users" data-i18n="admin.menu.users">Usuários</a></li>
+                        <li><a href="#stats" data-i18n="admin.menu.statistics">Estatísticas</a></li>
+                        <li><a href="#settings" data-i18n="admin.menu.settings">Configurações</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="admin-content">
+                <!-- Seção de Gerenciamento de Usuários -->
+                <section id="users-section" class="admin-section active">
+                    <div class="section-header">
+                        <h2 data-i18n="admin.users.title">Gerenciamento de Usuários</h2>
+                        <div class="actions-container">
+                            <button id="addUserBtn" class="btn primary-btn" data-i18n="admin.users.add_user">Adicionar Usuário</button>
+                            <div class="search-filter">
+                                <input type="text" id="userSearch" placeholder="Buscar usuário..." data-i18n-attr="placeholder:admin.users.search_placeholder">
+                                <select id="statusFilter">
+                                    <option value="all" data-i18n="admin.users.filter_all">Todos</option>
+                                    <option value="active" data-i18n="admin.users.filter_active">Ativos</option>
+                                    <option value="inactive" data-i18n="admin.users.filter_inactive">Inativos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="users-table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="admin.users.table.id">ID</th>
+                                    <th data-i18n="admin.users.table.name">Nome</th>
+                                    <th data-i18n="admin.users.table.email">Email</th>
+                                    <th data-i18n="admin.users.table.role">Função</th>
+                                    <th data-i18n="admin.users.table.level">Nível</th>
+                                    <th data-i18n="admin.users.table.status">Status</th>
+                                    <th data-i18n="admin.users.table.created_at">Criado em</th>
+                                    <th data-i18n="admin.users.table.actions">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Preenchido via JavaScript -->
+                                <tr>
+                                    <td colspan="8" class="loading-message" data-i18n="admin.loading">Carregando usuários...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button id="prevPage" data-i18n="admin.pagination.prev">Anterior</button>
+                        <span id="currentPage">1</span> / <span id="totalPages">1</span>
+                        <button id="nextPage" data-i18n="admin.pagination.next">Próximo</button>
+                    </div>
+                </section>
+                
+                <!-- Modal de Detalhes do Usuário -->
+                <div id="userDetailsModal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 data-i18n="admin.user_details.title">Detalhes do Usuário</h3>
+                            <button class="close-modal">&times;</button>
+                        </div>
+                        <div class="modal-body" id="userDetailsContent">
+                            <div class="user-profile-header">
+                                <img src="/public/components/shared/images/default-avatar.svg" alt="Avatar do Usuário" id="userDetailsAvatar" data-i18n-attr="alt:admin.user_details.avatar">
+                                <div class="user-info-header">
+                                    <h4 id="userDetailsName">Nome do Usuário</h4>
+                                    <p id="userDetailsEmail">usuario@exemplo.com</p>
+                                </div>
+                                <div class="user-status">
+                                    <label class="toggle">
+                                        <input type="checkbox" id="userActiveToggle">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span id="activeLabel" data-i18n="admin.user_details.active">Ativo</span>
+                                </div>
+                            </div>
+                            
+                            <div class="user-details-tabs">
+                                <button class="tab-btn active" data-tab="profile-tab" data-i18n="admin.user_details.tabs.profile">Perfil</button>
+                                <button class="tab-btn" data-tab="activity-tab" data-i18n="admin.user_details.tabs.activity">Atividade</button>
+                                <button class="tab-btn" data-tab="subscription-tab" data-i18n="admin.user_details.tabs.subscription">Assinatura</button>
+                            </div>
+                            
+                            <div class="tab-content">
+                                <!-- Tab de Perfil -->
+                                <div id="profile-tab" class="tab-pane active">
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.profile.full_name">Nome Completo</label>
+                                        <input type="text" id="userFullName" class="form-control">
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.profile.organization">Organização</label>
+                                        <input type="text" id="userOrganization" class="form-control">
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.profile.phone">Telefone</label>
+                                        <input type="text" id="userPhone" class="form-control">
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.profile.country">País</label>
+                                        <input type="text" id="userCountry" class="form-control">
+                                    </div>
+                                    <div class="details-group checkbox-group">
+                                        <input type="checkbox" id="userNewsletter" class="form-checkbox">
+                                        <label for="userNewsletter" data-i18n="admin.user_details.profile.newsletter">Inscrição na newsletter</label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Tab de Atividade -->
+                                <div id="activity-tab" class="tab-pane">
+                                    <div class="activity-stats">
+                                        <div class="stat-box">
+                                            <div class="stat-value" id="userProjectCount">0</div>
+                                            <div class="stat-label" data-i18n="admin.user_details.activity.projects">Projetos</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value" id="userTemplateCount">0</div>
+                                            <div class="stat-label" data-i18n="admin.user_details.activity.templates">Templates</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value" id="userFormCount">0</div>
+                                            <div class="stat-label" data-i18n="admin.user_details.activity.archived">Arquivados</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-log">
+                                        <h4 data-i18n="admin.user_details.activity.last_logins">Últimos logins</h4>
+                                        <ul id="userLoginsList" class="log-list">
+                                            <li data-i18n="admin.loading">Carregando...</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <!-- Tab de Assinatura -->
+                                <div id="subscription-tab" class="tab-pane">
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.subscription.plan">Plano</label>
+                                        <select id="userSubscriptionPlan" class="form-control">
+                                            <option value="free" data-i18n="admin.user_details.subscription.plans.free">Gratuito</option>
+                                            <option value="basic" data-i18n="admin.user_details.subscription.plans.basic">Básico</option>
+                                            <option value="pro" data-i18n="admin.user_details.subscription.plans.pro">Profissional</option>
+                                            <option value="enterprise" data-i18n="admin.user_details.subscription.plans.enterprise">Empresarial</option>
+                                        </select>
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.subscription.status">Status</label>
+                                        <select id="userSubscriptionStatus" class="form-control">
+                                            <option value="active" data-i18n="admin.user_details.subscription.status.active">Ativo</option>
+                                            <option value="cancelled" data-i18n="admin.user_details.subscription.status.cancelled">Cancelado</option>
+                                            <option value="expired" data-i18n="admin.user_details.subscription.status.expired">Expirado</option>
+                                        </select>
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.subscription.start_date">Data de Início</label>
+                                        <input type="date" id="userSubscriptionStart" class="form-control">
+                                    </div>
+                                    <div class="details-group">
+                                        <label data-i18n="admin.user_details.subscription.end_date">Data de Término</label>
+                                        <input type="date" id="userSubscriptionEnd" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="modal-footer">
+                                <button class="btn secondary-btn" id="cancelUserChanges" data-i18n="admin.user_details.cancel">Cancelar</button>
+                                <button class="btn primary-btn" id="saveUserChanges" data-i18n="admin.user_details.save">Salvar Alterações</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Outras seções do painel admin (ocultas inicialmente) -->
+                <section id="stats-section" class="admin-section">
+                    <h2 data-i18n="admin.stats.title">Estatísticas</h2>
+                    <div class="stats-placeholder" data-i18n="admin.coming_soon">Em breve</div>
+                </section>
+                
+                <section id="settings-section" class="admin-section">
+                    <h2 data-i18n="admin.settings.title">Configurações</h2>
+                    <div class="settings-placeholder" data-i18n="admin.coming_soon">Em breve</div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mensagem de acesso negado para não-admins -->
+    <div id="accessDeniedMessage" class="access-denied-overlay" style="display: none;">
+        <div class="access-denied-content">
+            <h2 data-i18n="admin.access_denied.title">Acesso Negado</h2>
+            <p data-i18n="admin.access_denied.message">Não tem permissão para aceder a esta página. Este painel é exclusivo para administradores.</p>
+            <button id="goBackBtn" data-i18n="admin.access_denied.back">Voltar</button>
+        </div>
+    </div>
+</body>
+</html> 

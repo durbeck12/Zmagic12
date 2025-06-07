@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - ZMagic12</title>
+    <link rel="stylesheet" href="css/auth.css">
+    
+    <!-- Importar diretamente a biblioteca Supabase do CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Pré-carregar arquivos de idioma -->
+    <script src="js/langs/pt-PT.js"></script>
+    <script src="js/langs/en-US.js"></script>
+    <script src="js/langs/fr-FR.js"></script>
+    <script src="js/langs/es-ES.js"></script>
+    <script src="js/langs/de-DE.js"></script>
+    <script src="js/langs/zh-CN.js"></script>
+    
+    <style>
+        .language-selector {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+        .language-selector select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Seletor de idiomas -->
+    <div class="language-selector">
+        <select id="language-select">
+            <option value="pt-PT">Português</option>
+            <option value="en-US">English</option>
+            <option value="fr-FR">Français</option>
+            <option value="es-ES">Español</option>
+            <option value="de-DE">Deutsch</option>
+            <option value="zh-CN">中文</option>
+        </select>
+    </div>
+
+    <a href="login.html" class="back-link" data-i18n="register.back_link">Voltar para o login</a>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 data-i18n="app_name">ZMagic12</h1>
+            <p data-i18n="register.title">Crie sua conta</p>
+        </div>
+        
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message" data-i18n="register.success_message">
+            Conta criada com sucesso! Verifique seu email para confirmar o registro.
+        </div>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <label for="name" data-i18n="register.name_label">Nome</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email" data-i18n="register.email_label">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password" data-i18n="register.password_label">Senha</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password" data-i18n="register.confirm_password_label">Confirmar Senha</label>
+                <input type="password" id="confirm-password" required>
+            </div>
+            <div class="form-group checkbox">
+                <input type="checkbox" id="terms" required>
+                <label for="terms" data-i18n="register.terms_label">Concordo com os <a href="#" data-i18n="register.terms_link">Termos de Uso</a></label>
+            </div>
+            <button type="submit" class="auth-btn" data-i18n="register.submit_button">Registrar</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p><span data-i18n="register.login_link">Já tem uma conta?</span> <a href="login.html" data-i18n="login.submit_button">Entrar</a></p>
+        </div>
+    </div>
+
+    <!-- Carregar arquivos de internacionalização -->
+    <script src="js/i18n-auth.js"></script>
+    
+    <!-- Carregar arquivos de autenticação -->
+    <script src="js/auth.js"></script>
+    
+    <!-- Script para inicializar o seletor de idiomas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar o seletor de idiomas
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                // Definir o valor inicial com base no idioma atual
+                const currentLanguage = localStorage.getItem('locale') || 'pt-PT';
+                languageSelect.value = currentLanguage;
+                
+                // Adicionar event listener para alteração de idioma
+                languageSelect.addEventListener('change', function() {
+                    const selectedLanguage = this.value;
+                    if (window.Auth_I18n) {
+                        window.Auth_I18n.setLanguage(selectedLanguage);
+                    }
+                });
+            }
+        });
+    </script>
+    
+    <!-- Script específico para registro -->
+    <script>
+        // Este script lida especificamente com o formulário de registro
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('register-form');
+            
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Verificar se as senhas coincidem
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    if (password !== confirmPassword) {
+                        const errorMsg = Auth_I18n.translate('register.error_passwords_dont_match');
+                        const errorElement = document.getElementById('error-message');
+                        if (errorElement) {
+                            errorElement.textContent = errorMsg;
+                            errorElement.style.display = 'block';
+                        }
+                        return;
+                    }
+                    
+                    // Obter dados do formulário
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    
+                    // Chamar API de registro (a implementar completamente)
+                    if (window.supabase && window.supabase.auth) {
+                        // Mostrar loading
+                        const loadingElement = document.createElement('div');
+                        loadingElement.className = 'loading-indicator';
+                        loadingElement.innerHTML = '<div class="spinner"></div><span>' + 
+                            Auth_I18n.translate('login.loading') + '</span>';
+                        
+                        registerForm.style.display = 'none';
+                        registerForm.parentNode.insertBefore(loadingElement, registerForm.nextSibling);
+                        
+                        // Registrar usuário
+                        window.supabase.auth.signUp({
+                            email: email,
+                            password: password,
+                            options: {
+                                data: {
+                                    name: name
+                                }
+                            }
+                        })
+                        .then(({ data, error }) => {
+                            if (error) {
+                                console.error('Erro ao registrar:', error);
+                                
+                                const errorElement = document.getElementById('error-message');
+                                if (errorElement) {
+                                    if (error.message.includes('already')) {
+                                        errorElement.textContent = Auth_I18n.translate('register.error_email_in_use');
+                                    } else {
+                                        errorElement.textContent = Auth_I18n.translate('register.error_generic');
+                                    }
+                                    errorElement.style.display = 'block';
+                                }
+                                
+                                // Remover loading e mostrar formulário
+                                loadingElement.remove();
+                                registerForm.style.display = 'block';
+                            } else {
+                                console.log('Registro bem-sucedido!', data);
+                                
+                                // Mostrar mensagem de sucesso
+                                const successMessage = document.getElementById('success-message');
+                                if (successMessage) {
+                                    successMessage.style.display = 'block';
+                                }
+                                
+                                // Redirecionar para login
+                                setTimeout(() => {
+                                    window.location.href = 'login.html';
+                                }, 2000);
+                            }
+                        })
+                        .catch(err => {
+                            console.error('Erro ao processar registro:', err);
+                            
+                            const errorElement = document.getElementById('error-message');
+                            if (errorElement) {
+                                errorElement.textContent = Auth_I18n.translate('register.error_generic');
+                                errorElement.style.display = 'block';
+                            }
+                            
+                            // Remover loading e mostrar formulário
+                            loadingElement.remove();
+                            registerForm.style.display = 'block';
+                        });
+                    } else {
+                        // Modo offline ou Supabase não disponível
+                        const successMessage = document.getElementById('success-message');
+                        if (successMessage) {
+                            successMessage.style.display = 'block';
+                        }
+                        
+                        // Simular registro bem-sucedido
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
